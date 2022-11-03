@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'practice_page.dart';
+
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
 
@@ -53,12 +55,8 @@ class _MenuPageState extends State<MenuPage> {
       BuildContext context, int index, String imageAssetFilePath) {
     return InkWell(
       onTap: () {
-        print(index);
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         // （2） 実際に表示するページ(ウィジェット)を指定する
-        //         builder: (context) => const PracticePage()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const PracticePage()));
       },
       onLongPress: () {
         showDialog(
