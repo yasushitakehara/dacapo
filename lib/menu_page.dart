@@ -10,27 +10,8 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   List<Widget> _scoreList = [];
 
-  void _addNewScore() {
-    // setState(() {
-    //   // This call to setState tells the Flutter framework that something has
-    //   // changed in this State, which causes it to rerun the build method below
-    //   // so that the display can reflect the updated values. If we changed
-    //   // _counter without calling setState(), then the build method would not be
-    //   // called again, and so nothing would appear to happen.
-    //   _counter++;
-    // });
-  }
-
   @override
   Widget build(BuildContext context) {
-    _scoreList = [
-      _showScoreBox(context, 'images/dummy.png'),
-      _showScoreBox(context, 'images/dummy.png'),
-      _showScoreBox(context, 'images/dummy.png'),
-      _showScoreBox(context, 'images/dummy.png'),
-      _showScoreBox(context, 'images/dummy.png'),
-    ];
-
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -41,32 +22,72 @@ class _MenuPageState extends State<MenuPage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text('DaCapo 練習メニュー'),
+        title: Text('Da Capo 練習メニュー'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: _scoreList,
+      body: SizedBox(
+        height: 200,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: _scoreList.length,
+          itemBuilder: (BuildContext context, int index) {
+            return _showScoreBox(context, index, 'images/dummy.png');
+          },
         ),
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: _addNewScore,
+        onPressed: () {
+          setState(() {
+            _scoreList.add(
+                _showScoreBox(context, _scoreList.length, 'images/dummy.png'));
+          });
+        },
         tooltip: '新しい楽譜を追加する',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
-  Widget _showScoreBox(BuildContext context, String imageAssetFilePath) {
+  Widget _showScoreBox(
+      BuildContext context, int index, String imageAssetFilePath) {
     return InkWell(
       onTap: () {
+        print(index);
         // Navigator.push(
         //     context,
         //     MaterialPageRoute(
         //         // （2） 実際に表示するページ(ウィジェット)を指定する
         //         builder: (context) => const PracticePage()));
+      },
+      onLongPress: () {
+        showDialog(
+          context: context,
+          builder: (_) {
+            return AlertDialog(
+              title: Text("削除確認"),
+              content: Text("この楽譜データ[$index]を削除しますか？"),
+              actions: <Widget>[
+                // ボタン領域
+                ElevatedButton(
+                  child: Text("いいえ"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                ElevatedButton(
+                  child: Text("はい"),
+                  onPressed: () {
+                    setState(() {
+                      _scoreList.removeAt(index);
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          },
+        );
       },
       child: Container(
         margin: const EdgeInsets.all(8),
