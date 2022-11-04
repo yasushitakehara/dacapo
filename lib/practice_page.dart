@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class PracticePage extends StatefulWidget {
-  const PracticePage({super.key});
+  const PracticePage({super.key, required this.pictureFilePath});
+
+  final String pictureFilePath;
 
   @override
   State<PracticePage> createState() => _PracticePageState();
@@ -84,9 +88,7 @@ class _PracticePageState extends State<PracticePage> {
             margin: const EdgeInsets.all(8),
             child: FittedBox(
               fit: BoxFit.contain,
-              child: Image.asset(
-                'images/dummy2.png',
-              ),
+              child: Image.file(File(widget.pictureFilePath)),
             ),
             width: double.infinity,
             height: 200,
