@@ -40,15 +40,39 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     // FutureBuilder で初期化を待ってからプレビューを表示（それまではインジケータを表示）
     return Scaffold(
-      body: FutureBuilder<void>(
-        future: _initializeControllerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return CameraPreview(_controller);
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
+      body: Center(
+        child: Stack(
+          children: [
+            FutureBuilder<void>(
+              future: _initializeControllerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return CameraPreview(_controller);
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              },
+            ),
+            Positioned(
+              top: 50.0,
+              width: MediaQuery.of(context).size.width,
+              height: 1.0,
+              child: Container(
+                width: double.infinity,
+                color: Colors.orange,
+              ),
+            ),
+            Positioned(
+              bottom: 50.0,
+              width: MediaQuery.of(context).size.width,
+              height: 1.0,
+              child: Container(
+                width: double.infinity,
+                color: Colors.orange,
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
