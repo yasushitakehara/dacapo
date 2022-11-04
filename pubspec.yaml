@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  # originally added for dacapo!
+  # added for dacapo!
   google_fonts: ^3.0.1
   camera: ^0.10.0+4
   image: ^3.2.2
@@ -55,6 +55,18 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+
+  # added for dacapo!
+  flutter_launcher_icons: ^0.10.0
+
+# reference
+# https://zenn.dev/kentaroh/articles/83a7e86170776e
+# to update icon, run the below command.
+# flutter pub run flutter_launcher_icons:main
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/app-icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
