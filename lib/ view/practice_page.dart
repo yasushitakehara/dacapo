@@ -21,7 +21,7 @@ class _PracticePageState extends State<PracticePage> {
   XFile? _specimenVideoXFile;
   bool _showScore = true;
   VideoPlayerController? _videoController;
-  List<bool> _selections = [false];
+  final List<bool> _selections = [false];
 
   @override
   Widget build(BuildContext context) {
