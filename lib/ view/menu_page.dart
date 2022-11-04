@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:dacapo/%20view/practice_page.dart';
+import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 
 import 'camera_record_page.dart';
-import 'logger.dart';
-import 'practice_page.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});

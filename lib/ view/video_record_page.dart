@@ -1,6 +1,6 @@
 import 'package:camera/camera.dart';
+import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
-import 'logger.dart';
 
 class VideoRecordPage extends StatefulWidget {
   const VideoRecordPage({

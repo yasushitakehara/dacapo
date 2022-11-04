@@ -1,11 +1,10 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:dacapo/video_record_page.dart';
+import 'package:dacapo/%20view/video_record_page.dart';
+import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-
-import 'logger.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key, required this.pictureFilePath});

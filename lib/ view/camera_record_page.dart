@@ -1,11 +1,10 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:dacapo/%20view/preview_page.dart';
+import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart';
-
-import 'logger.dart';
-import 'preview_page.dart';
 
 class CameraRecordPage extends StatefulWidget {
   const CameraRecordPage({
