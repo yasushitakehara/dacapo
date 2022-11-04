@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
+import 'camera_page.dart';
 import 'practice_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -33,30 +37,48 @@ class _MenuPageState extends State<MenuPage> {
           scrollDirection: Axis.horizontal,
           itemCount: _scoreList.length,
           itemBuilder: (BuildContext context, int index) {
-            return _showScoreBox(context, index, 'images/dummy.png');
+            return _scoreList[index];
           },
         ),
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _scoreList.add(
-                _showScoreBox(context, _scoreList.length, 'images/dummy.png'));
-          });
+        onPressed: () async {
+          // デバイスで使用可能なカメラのリストを取得
+          final cameras = await availableCameras();
+          // 利用可能なカメラのリストから特定のカメラを取得
+          final firstCamera = cameras.first;
+
+          final takenPictureFilePath = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CameraPage(camera: firstCamera)));
+
+          if (takenPictureFilePath != null) {
+            print('received ' + takenPictureFilePath.toString());
+            setState(() {
+              _scoreList.add(_showScoreBox(
+                  context, _scoreList.length, takenPictureFilePath.toString()));
+            });
+          } else {
+            print('It is null');
+          }
         },
         tooltip: '新しい楽譜を追加する',
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add_a_photo),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
   Widget _showScoreBox(
-      BuildContext context, int index, String imageAssetFilePath) {
+      BuildContext context, int index, String pictureFilePath) {
     return InkWell(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const PracticePage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    PracticePage(pictureFilePath: pictureFilePath)));
       },
       onLongPress: () {
         showDialog(
@@ -91,8 +113,8 @@ class _MenuPageState extends State<MenuPage> {
         margin: const EdgeInsets.all(8),
         child: FittedBox(
           fit: BoxFit.contain,
-          child: Image.asset(
-            imageAssetFilePath,
+          child: Image.file(
+            File(pictureFilePath),
           ),
         ),
         width: 200,

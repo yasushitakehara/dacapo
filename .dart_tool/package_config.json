@@ -14,6 +14,36 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "camera",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/camera-0.10.0+4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "camera_android",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/camera_android-0.10.0+4",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "camera_avfoundation",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/camera_avfoundation-0.9.8+6",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "camera_platform_interface",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/camera_platform_interface-2.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "camera_web",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/camera_web-0.3.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "characters",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/characters-1.2.1",
       "packageUri": "lib/",
@@ -28,6 +58,12 @@
     {
       "name": "collection",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/collection-1.16.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "cross_file",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/cross_file-0.3.3+2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -74,8 +110,20 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "flutter_plugin_android_lifecycle",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/packages/flutter_test",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
+      "name": "flutter_web_plugins",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -96,6 +144,12 @@
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "js",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
     },
     {
       "name": "lints",
@@ -188,6 +242,12 @@
       "languageVersion": "2.14"
     },
     {
+      "name": "quiver",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "sky_engine",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -210,6 +270,12 @@
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/stream_channel-2.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "stream_transform",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/stream_transform-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "string_scanner",
@@ -260,7 +326,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-11-03T12:46:28.932726Z",
+  "generated": "2022-11-04T03:27:28.329355Z",
   "generator": "pub",
   "generatorVersion": "2.18.4"
 }

@@ -47,5 +47,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- for dacapo! -->
+	<key>NSCameraUsageDescription</key>
+	<string>練習する楽譜の撮影・表示のため</string>
 </dict>
 </plist>

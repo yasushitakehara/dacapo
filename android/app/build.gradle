@@ -47,7 +47,11 @@ android {
         applicationId "com.example.dacapo"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+
+        //minSdkVersion flutter.minSdkVersion
+        //reference https://zenn.dev/mamushi/articles/flutter_camera#1.-%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%81%AE%E8%BF%BD%E5%8A%A0
+        minSdkVersion 21
+
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
