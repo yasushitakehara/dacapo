@@ -22,6 +22,7 @@ class _PracticePageState extends State<PracticePage> {
   XFile? _specimenVideoXFile;
   bool _showScore = true;
   VideoPlayerController? _videoController;
+  List<bool> _selections = [false];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _PracticePageState extends State<PracticePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('DaCapo 練習'),
+        title: const Text('Da Capo 練習'),
         centerTitle: true,
       ),
       body: Column(
@@ -58,21 +59,28 @@ class _PracticePageState extends State<PracticePage> {
                         // even before the play button has been pressed.
                         setState(() {});
                       });
+                      _videoController!.addListener(() async {
+                        if (!_videoController!.value.isPlaying &&
+                            (_videoController!.value.duration ==
+                                _videoController!.value.position)) {
+                          //checking the duration and position every time
+                          logger.fine('reached the end of the movie!');
+                          sleep(Duration(
+                              milliseconds:
+                                  (_currentSliderValue * 1000).toInt()));
+                          logger.fine('repeat again!');
+                          //setState(() {
+                          //_videoController!.play();
+                          //});
+                          await _videoController!
+                              .seekTo(Duration.zero)
+                              .then((_) => _videoController!.play());
+                        }
+                        ;
+                      });
                     }
                   },
                   child: const Icon(Icons.video_call),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(8),
-                child: ElevatedButton(
-                  child: const Icon(Icons.compare),
-                  onPressed: () async {
-                    logger.fine('onPressed');
-                    setState(() {
-                      _showScore = !_showScore;
-                    });
-                  },
                 ),
               ),
               const Text('リピート間隔'),
@@ -84,30 +92,47 @@ class _PracticePageState extends State<PracticePage> {
                   divisions: 100,
                   label: _currentSliderValue.toStringAsFixed(1),
                   onChanged: (double value) {
-                    logger.fine('onChanged');
                     setState(() {
                       _currentSliderValue = value;
                     });
                   },
                 ),
               ),
-              const Text('秒後'),
+              const Text('秒'),
               Container(
                 margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
                   child: _isPlaying
                       ? const Icon(Icons.stop_circle)
                       : const Icon(Icons.play_circle),
-                  onPressed: () {
-                    logger.fine('onPressed');
+                  onPressed: _specimenVideoXFile == null
+                      ? null
+                      : () {
+                          logger.fine('onPressed');
+                          setState(() {
+                            _isPlaying = !_isPlaying;
+                            logger.fine('_isPlaying = $_isPlaying');
+                            if (_isPlaying) {
+                              _startVideoPlayer();
+                            } else {
+                              _videoController!.pause();
+                            }
+                          });
+                        },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(8),
+                child: ToggleButtons(
+                  children: <Widget>[
+                    Icon(Icons.waving_hand),
+                  ],
+                  isSelected: _selections,
+                  onPressed: (int index) {
+                    logger.fine('onPressed index=$index');
                     setState(() {
-                      _isPlaying = !_isPlaying;
-                      logger.fine('_isPlaying = $_isPlaying');
-                      if (_isPlaying) {
-                        _startVideoPlayer();
-                      } else {
-                        _videoController!.pause();
-                      }
+                      _selections[index] = !_selections[index];
+                      _showScore = !_showScore;
                     });
                   },
                 ),
@@ -123,7 +148,7 @@ class _PracticePageState extends State<PracticePage> {
               //   border: Border.all(color: Colors.black),
               //   borderRadius: BorderRadius.circular(20),
               // ),
-              child: SizedBox(
+              child: Container(
                 height: 200,
                 width: 400,
                 child: _createMainContent(),
@@ -150,7 +175,6 @@ class _PracticePageState extends State<PracticePage> {
   Future<void> _startVideoPlayer() async {
     logger.fine(_specimenVideoXFile != null);
     if (_specimenVideoXFile != null) {
-      await _videoController!.setLooping(true);
       await _videoController!
           .seekTo(Duration.zero)
           .then((_) => _videoController!.play());

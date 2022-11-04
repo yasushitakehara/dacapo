@@ -14,7 +14,7 @@ class PreviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.fine('build');
     return Scaffold(
-      appBar: AppBar(title: const Text('撮れた写真')),
+      appBar: AppBar(title: const Text('こちらでよろしいでしょうか？')),
       body: Center(child: Image.file(File(imagePath))),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {

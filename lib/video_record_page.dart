@@ -25,12 +25,9 @@ class _VideoRecordPageState extends State<VideoRecordPage> {
     super.initState();
 
     _controller = CameraController(
-      // カメラを指定
       widget.camera,
-      // 解像度を定義
       ResolutionPreset.medium,
     );
-    // コントローラーを初期化
     _initializeControllerFuture = _controller.initialize();
   }
 
@@ -39,6 +36,7 @@ class _VideoRecordPageState extends State<VideoRecordPage> {
     logger.fine('build');
     // FutureBuilder で初期化を待ってからプレビューを表示（それまではインジケータを表示）
     return Scaffold(
+      appBar: AppBar(title: const Text('お手本の指の動きを録画しましょう')),
       body: Center(
         child: FutureBuilder<void>(
           future: _initializeControllerFuture,
@@ -66,8 +64,7 @@ class _VideoRecordPageState extends State<VideoRecordPage> {
             _startVideoRecording();
           }
         },
-        child: Icon(
-            _isRecordingInProgress ? Icons.stop_circle : Icons.play_circle),
+        child: Icon(_isRecordingInProgress ? Icons.stop_circle : Icons.circle),
       ),
     );
   }
