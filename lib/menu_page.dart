@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'camera_record_page.dart';
+import 'logger.dart';
 import 'practice_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    logger.fine('build');
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -44,6 +46,7 @@ class _MenuPageState extends State<MenuPage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          logger.fine('onPressed');
           // デバイスで使用可能なカメラのリストを取得
           final cameras = await availableCameras();
           // 利用可能なカメラのリストから特定のカメラを取得
@@ -55,13 +58,13 @@ class _MenuPageState extends State<MenuPage> {
                   builder: (context) => CameraRecordPage(camera: firstCamera)));
 
           if (takenPictureFilePath != null) {
-            print('received ' + takenPictureFilePath.toString());
+            logger.fine('received ' + takenPictureFilePath.toString());
             setState(() {
               _scoreList.add(_showScoreBox(
                   context, _scoreList.length, takenPictureFilePath.toString()));
             });
           } else {
-            print('It is null');
+            logger.fine('It is null');
           }
         },
         tooltip: '新しい楽譜を追加する',
@@ -74,6 +77,7 @@ class _MenuPageState extends State<MenuPage> {
       BuildContext context, int index, String pictureFilePath) {
     return InkWell(
       onTap: () {
+        logger.fine('onTap');
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -81,6 +85,7 @@ class _MenuPageState extends State<MenuPage> {
                     PracticePage(pictureFilePath: pictureFilePath)));
       },
       onLongPress: () {
+        logger.fine('onLongPress');
         showDialog(
           context: context,
           builder: (_) {
@@ -92,12 +97,14 @@ class _MenuPageState extends State<MenuPage> {
                 ElevatedButton(
                   child: Text("いいえ"),
                   onPressed: () {
+                    logger.fine('onPressed');
                     Navigator.pop(context);
                   },
                 ),
                 ElevatedButton(
                   child: Text("はい"),
                   onPressed: () {
+                    logger.fine('onPressed');
                     setState(() {
                       _scoreList.removeAt(index);
                     });
