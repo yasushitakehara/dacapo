@@ -60,17 +60,13 @@ class _PracticePageState extends State<PracticePage> {
                       });
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepOrangeAccent
-                      //onPrimary: Colors.black,
-                      ),
                   child: const Icon(Icons.video_call),
                 ),
               ),
               Container(
                 margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                  child: const Icon(Icons.compare_arrows),
+                  child: const Icon(Icons.compare),
                   onPressed: () async {
                     logger.fine('onPressed');
                     setState(() {

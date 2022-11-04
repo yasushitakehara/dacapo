@@ -54,7 +54,8 @@ class _MenuPageState extends State<MenuPage> {
           final takenPictureFilePath = await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CameraRecordPage(camera: firstCamera)));
+                  builder: (context) =>
+                      CameraRecordPage(cameraDesc: firstCamera)));
 
           if (takenPictureFilePath != null) {
             logger.fine('received ${takenPictureFilePath.toString()}');
