@@ -1,9 +1,8 @@
 // 撮影した写真を表示する画面
 import 'dart:io';
 
+import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
-
-import 'logger.dart';
 
 class PreviewPage extends StatelessWidget {
   const PreviewPage({Key? key, required this.imagePath}) : super(key: key);

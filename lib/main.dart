@@ -1,9 +1,10 @@
-import 'package:dacapo/logger.dart';
+import 'package:dacapo/model/camera_manager.dart';
+import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'menu_page.dart';
+import ' view/menu_page.dart';
 
 void main() {
   logger.info('start dacapo!!');
@@ -15,12 +16,13 @@ void main() {
   // 横向きに変更
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+  CameraManager.initialize();
 
-  runApp(const MyApp());
+  runApp(const DaCapoApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DaCapoApp extends StatelessWidget {
+  const DaCapoApp({super.key});
 
   // This widget is the root of your application.
   @override

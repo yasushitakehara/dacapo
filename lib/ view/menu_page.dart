@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:dacapo/%20view/practice_page.dart';
+import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 
 import 'camera_record_page.dart';
-import 'logger.dart';
-import 'practice_page.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -47,15 +47,8 @@ class _MenuPageState extends State<MenuPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           logger.fine('onPressed');
-          // デバイスで使用可能なカメラのリストを取得
-          final cameras = await availableCameras();
-          // 利用可能なカメラのリストから特定のカメラを取得
-          final firstCamera = cameras.first;
-          final takenPictureFilePath = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      CameraRecordPage(cameraDesc: firstCamera)));
+          final takenPictureFilePath = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CameraRecordPage()));
 
           if (takenPictureFilePath != null) {
             logger.fine('received ${takenPictureFilePath.toString()}');

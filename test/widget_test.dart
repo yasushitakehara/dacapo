@@ -13,7 +13,7 @@ import 'package:dacapo/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(const DaCapoApp());
 
     expect(find.text('Da Capo 練習メニュー'), findsOneWidget);
 
