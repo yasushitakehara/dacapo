@@ -42,6 +42,7 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
   Widget build(BuildContext context) {
     // FutureBuilder で初期化を待ってからプレビューを表示（それまではインジケータを表示）
     return Scaffold(
+      appBar: AppBar(title: const Text('練習したい楽譜の一部を、２本の線の間に収まるように撮影しましょう')),
       body: Center(
         child: Stack(
           children: [

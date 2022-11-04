@@ -30,7 +30,7 @@ class _MenuPageState extends State<MenuPage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text('Da Capo 練習メニュー'),
+        title: const Text('Da Capo 練習メニュー（楽譜を長押しすると削除できます）'),
         centerTitle: true,
       ),
       body: SizedBox(
