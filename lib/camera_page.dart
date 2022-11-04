@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image/image.dart';
 
 import 'practice_page.dart';
 import 'preview_page.dart';
@@ -19,6 +20,7 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
+  static const croppedLength = 100;
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
@@ -54,7 +56,7 @@ class _CameraPageState extends State<CameraPage> {
               },
             ),
             Positioned(
-              top: 50.0,
+              top: croppedLength.toDouble(),
               width: MediaQuery.of(context).size.width,
               height: 1.0,
               child: Container(
@@ -63,7 +65,7 @@ class _CameraPageState extends State<CameraPage> {
               ),
             ),
             Positioned(
-              bottom: 50.0,
+              bottom: croppedLength.toDouble(),
               width: MediaQuery.of(context).size.width,
               height: 1.0,
               child: Container(
@@ -80,11 +82,27 @@ class _CameraPageState extends State<CameraPage> {
           final image = await _controller.takePicture();
           print('path を出力');
           print(image.path);
+          //imageパッケージのImage型に変換
+          final decodedImage =
+              decodeImage(await File(image.path).readAsBytes())!;
+//画像をリサイズ
+          //final resizedImage = copyResize(decodedImage, width: saveImageWidth);
+//左上を起点に正方形（縦横同じ長さ）に切り抜き
+          final croppedImage = copyCrop(decodedImage, 0, croppedLength,
+              decodedImage.width, decodedImage.height - (croppedLength * 2));
+
+//切り抜いた画像をdart:ioのFileオブジェクトに変換
+          final croppedImagePath =
+              image.path.replaceFirst('.jpg', '_cropped.jpg');
+          final croppedImageFile = await File(croppedImagePath)
+              .writeAsBytes(encodePng(croppedImage));
+          print(croppedImageFile.path);
 
           // 表示用の画面に遷移
           await Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => PreviewPage(imagePath: image.path),
+              builder: (context) =>
+                  PreviewPage(imagePath: croppedImageFile.path),
               fullscreenDialog: true,
             ),
           );
