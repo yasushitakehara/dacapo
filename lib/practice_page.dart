@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
+import 'package:dacapo/video_record_page.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key, required this.pictureFilePath});
@@ -13,11 +16,14 @@ class PracticePage extends StatefulWidget {
 
 class _PracticePageState extends State<PracticePage> {
   double _currentSliderValue = 1.0;
-  bool _isRecording = false;
   bool _isPlaying = false;
+  XFile? _specimenVideoXFile;
+  bool _showScore = true;
+  VideoPlayerController? _videoController;
 
   @override
   Widget build(BuildContext context) {
+    print('build!');
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -38,19 +44,42 @@ class _PracticePageState extends State<PracticePage> {
               Container(
                 margin: EdgeInsets.all(8),
                 child: ElevatedButton(
-                  child:
-                      _isRecording ? Icon(Icons.stop_circle) : Icon(Icons.mic),
-                  onPressed: () {
-                    setState(() {
-                      _isRecording = !_isRecording;
-                    });
+                  child: Icon(Icons.video_call),
+                  onPressed: () async {
+                    // デバイスで使用可能なカメラのリストを取得
+                    final cameras = await availableCameras();
+                    _specimenVideoXFile = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                VideoRecordPage(camera: cameras.first)));
+                    print('specimenVideoXFile = $_specimenVideoXFile');
+                    if (_specimenVideoXFile != null) {
+                      _videoController = VideoPlayerController.file(
+                          File(_specimenVideoXFile!.path));
+                      print('aaaa');
+                      await _videoController!.initialize().then((_) {
+                        // Ensure the first frame is shown after the video is initialized,
+                        // even before the play button has been pressed.
+                        setState(() {});
+                      });
+                    }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _isRecording
-                        ? Colors.deepOrangeAccent
-                        : Theme.of(context).primaryColor,
-                    //onPrimary: Colors.black,
-                  ),
+                      backgroundColor: Colors.deepOrangeAccent
+                      //onPrimary: Colors.black,
+                      ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(8),
+                child: ElevatedButton(
+                  child: Icon(Icons.compare_arrows),
+                  onPressed: () async {
+                    setState(() {
+                      _showScore = !_showScore;
+                    });
+                  },
                 ),
               ),
               const Text('リピート間隔'),
@@ -78,6 +107,11 @@ class _PracticePageState extends State<PracticePage> {
                   onPressed: () {
                     setState(() {
                       _isPlaying = !_isPlaying;
+                      if (_isPlaying) {
+                        _startVideoPlayer();
+                      } else {
+                        _videoController!.pause();
+                      }
                     });
                   },
                 ),
@@ -85,20 +119,45 @@ class _PracticePageState extends State<PracticePage> {
             ],
           ),
           Container(
-            margin: const EdgeInsets.all(8),
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Image.file(File(widget.pictureFilePath)),
-            ),
-            width: double.infinity,
-            height: 200,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
+              margin: const EdgeInsets.all(8),
+              // child: FittedBox(fit: BoxFit.contain, child: _createMainContent()),
+              // width: 400, //double.infinity,
+              // height: 200,
+              // decoration: BoxDecoration(
+              //   border: Border.all(color: Colors.black),
+              //   borderRadius: BorderRadius.circular(20),
+              // ),
+              child: SizedBox(
+                height: 200,
+                width: 400,
+                child: _createMainContent(),
+              )),
         ],
       ),
     );
+  }
+
+  Widget _createMainContent() {
+    if (_showScore) {
+      return Image.file(File(widget.pictureFilePath));
+    }
+
+    print(_specimenVideoXFile != null);
+    print(_videoController != null);
+    if (_specimenVideoXFile != null && _videoController != null) {
+      return VideoPlayer(_videoController!);
+    } else {
+      return Text('先にビデオを撮ること');
+    }
+  }
+
+  Future<void> _startVideoPlayer() async {
+    print(_specimenVideoXFile != null);
+    if (_specimenVideoXFile != null) {
+      await _videoController!.setLooping(true);
+      await _videoController!
+          .seekTo(Duration.zero)
+          .then((_) => _videoController!.play());
+    }
   }
 }
