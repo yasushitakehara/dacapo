@@ -41,13 +41,11 @@ class _PracticePageState extends State<PracticePage> {
                 child: ElevatedButton(
                   onPressed: () async {
                     logger.fine('onPressed');
-                    // デバイスで使用可能なカメラのリストを取得
-                    final cameras = await availableCameras();
+
                     _specimenVideoXFile = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                VideoRecordPage(camera: cameras.first)));
+                            builder: (context) => VideoRecordPage()));
                     logger.fine('specimenVideoXFile = $_specimenVideoXFile');
                     if (_specimenVideoXFile != null) {
                       logger.fine('_specimenVideoXFile != null');
@@ -58,12 +56,15 @@ class _PracticePageState extends State<PracticePage> {
                         // even before the play button has been pressed.
                         setState(() {});
                       });
-                      _videoController!.addListener(() async {
-                        if (!_videoController!.value.isPlaying &&
+                      _videoController!.addListener(() {
+                        if (_isPlaying &&
+                            !_videoController!.value.isPlaying &&
                             (_videoController!.value.duration ==
                                 _videoController!.value.position)) {
                           //checking the duration and position every time
                           logger.fine('reached the end of the movie!');
+                          logger.fine(
+                              'sleep ${(_currentSliderValue * 1000).toInt()} milliseconds');
                           sleep(Duration(
                               milliseconds:
                                   (_currentSliderValue * 1000).toInt()));
@@ -71,7 +72,7 @@ class _PracticePageState extends State<PracticePage> {
                           //setState(() {
                           //_videoController!.play();
                           //});
-                          await _videoController!
+                          _videoController!
                               .seekTo(Duration.zero)
                               .then((_) => _videoController!.play());
                         }
@@ -139,7 +140,7 @@ class _PracticePageState extends State<PracticePage> {
             ],
           ),
           Container(
-              margin: const EdgeInsets.all(8),
+              //margin: const EdgeInsets.all(8),
               // child: FittedBox(fit: BoxFit.contain, child: _createMainContent()),
               // width: 400, //double.infinity,
               // height: 200,
@@ -148,10 +149,10 @@ class _PracticePageState extends State<PracticePage> {
               //   borderRadius: BorderRadius.circular(20),
               // ),
               child: Container(
-                height: 200,
-                width: 400,
-                child: _createMainContent(),
-              )),
+            height: 200,
+            width: 400,
+            child: _createMainContent(),
+          )),
         ],
       ),
     );

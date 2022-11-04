@@ -47,15 +47,8 @@ class _MenuPageState extends State<MenuPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           logger.fine('onPressed');
-          // デバイスで使用可能なカメラのリストを取得
-          final cameras = await availableCameras();
-          // 利用可能なカメラのリストから特定のカメラを取得
-          final firstCamera = cameras.first;
-          final takenPictureFilePath = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      CameraRecordPage(cameraDesc: firstCamera)));
+          final takenPictureFilePath = await Navigator.push(context,
+              MaterialPageRoute(builder: (context) => CameraRecordPage()));
 
           if (takenPictureFilePath != null) {
             logger.fine('received ${takenPictureFilePath.toString()}');

@@ -1,3 +1,4 @@
+import 'package:dacapo/model/camera_manager.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +16,7 @@ void main() {
   // 横向きに変更
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+  CameraManager.initialize();
 
   runApp(const DaCapoApp());
 }

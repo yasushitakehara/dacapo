@@ -2,39 +2,24 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:dacapo/%20view/preview_page.dart';
+import 'package:dacapo/model/camera_manager.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart';
 
 class CameraRecordPage extends StatefulWidget {
-  const CameraRecordPage({
-    Key? key,
-    required this.cameraDesc,
-  }) : super(key: key);
-
-  final CameraDescription cameraDesc;
+  const CameraRecordPage({Key? key}) : super(key: key);
 
   @override
   State<CameraRecordPage> createState() => _CameraRecordPageState();
 }
 
 class _CameraRecordPageState extends State<CameraRecordPage> {
-  static const croppedLength = 100;
-  late CameraController _controller;
-  late Future<void> _initializeControllerFuture;
+  static const croppedLength = 80;
 
   @override
   void initState() {
     super.initState();
-
-    _controller = CameraController(
-      // カメラを指定
-      widget.cameraDesc,
-      // 解像度を定義
-      ResolutionPreset.medium,
-    );
-    // コントローラーを初期化
-    _initializeControllerFuture = _controller.initialize();
   }
 
   @override
@@ -46,10 +31,10 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
         child: Stack(
           children: [
             FutureBuilder<void>(
-              future: _initializeControllerFuture,
+              future: CameraManager.initializeControllerFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_controller);
+                  return CameraPreview(CameraManager.cameraController);
                 } else {
                   return const CircularProgressIndicator();
                 }
@@ -79,7 +64,10 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           // 写真を撮る
-          final image = await _controller.takePicture();
+          final image = await CameraManager.takePicture();
+          if (image == null) {
+            return;
+          }
           logger.fine('path を出力 =  ${image.path}');
           //imageパッケージのImage型に変換
           final decodedImage =
