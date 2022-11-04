@@ -29,9 +29,7 @@ class _PracticePageState extends State<PracticePage> {
 
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text('DaCapo 練習'),
+        title: const Text('DaCapo 練習'),
         centerTitle: true,
       ),
       body: Column(
@@ -39,9 +37,8 @@ class _PracticePageState extends State<PracticePage> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                  child: Icon(Icons.video_call),
                   onPressed: () async {
                     logger.fine('onPressed');
                     // デバイスで使用可能なカメラのリストを取得
@@ -67,12 +64,13 @@ class _PracticePageState extends State<PracticePage> {
                       backgroundColor: Colors.deepOrangeAccent
                       //onPrimary: Colors.black,
                       ),
+                  child: const Icon(Icons.video_call),
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                  child: Icon(Icons.compare_arrows),
+                  child: const Icon(Icons.compare_arrows),
                   onPressed: () async {
                     logger.fine('onPressed');
                     setState(() {
@@ -99,11 +97,11 @@ class _PracticePageState extends State<PracticePage> {
               ),
               const Text('秒後'),
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
                   child: _isPlaying
-                      ? Icon(Icons.stop_circle)
-                      : Icon(Icons.play_circle),
+                      ? const Icon(Icons.stop_circle)
+                      : const Icon(Icons.play_circle),
                   onPressed: () {
                     logger.fine('onPressed');
                     setState(() {
@@ -149,7 +147,7 @@ class _PracticePageState extends State<PracticePage> {
     if (_specimenVideoXFile != null && _videoController != null) {
       return VideoPlayer(_videoController!);
     } else {
-      return Text('先にビデオを撮ること');
+      return const Text('先にビデオを撮ること');
     }
   }
 

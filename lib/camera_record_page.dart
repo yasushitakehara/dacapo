@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart';
 
 import 'logger.dart';
-import 'practice_page.dart';
 import 'preview_page.dart';
 
 class CameraRecordPage extends StatefulWidget {
@@ -81,7 +80,7 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
         onPressed: () async {
           // 写真を撮る
           final image = await _controller.takePicture();
-          logger.fine('path を出力 = ' + image.path);
+          logger.fine('path を出力 =  ${image.path}');
           //imageパッケージのImage型に変換
           final decodedImage =
               decodeImage(await File(image.path).readAsBytes())!;
@@ -98,8 +97,7 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
               .writeAsBytes(encodePng(croppedImage));
           logger.fine(croppedImageFile.path);
 
-          // 表示用の画面に遷移
-          await Navigator.of(context).push(
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) =>
                   PreviewPage(imagePath: croppedImageFile.path),

@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:dacapo/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +7,7 @@ import 'menu_page.dart';
 
 void main() {
   logger.info('start dacapo!!');
-  logger.info('output log level is ' + logger.level.name);
+  logger.info('output log level is ${logger.level.name}');
 
   // Reference
   // https://hiyoko-programming.com/1575/

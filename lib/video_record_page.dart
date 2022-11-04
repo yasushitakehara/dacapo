@@ -1,12 +1,6 @@
-import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image/image.dart';
-
 import 'logger.dart';
-import 'practice_page.dart';
-import 'preview_page.dart';
 
 class VideoRecordPage extends StatefulWidget {
   const VideoRecordPage({
@@ -66,6 +60,7 @@ class _VideoRecordPageState extends State<VideoRecordPage> {
             if (xfile != null) {
               logger.fine('xfile = $xfile');
             }
+
             Navigator.pop(context, xfile);
           } else {
             _startVideoRecording();
