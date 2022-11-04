@@ -7,8 +7,8 @@ import 'package:image/image.dart';
 import 'practice_page.dart';
 import 'preview_page.dart';
 
-class CameraPage extends StatefulWidget {
-  const CameraPage({
+class CameraRecordPage extends StatefulWidget {
+  const CameraRecordPage({
     Key? key,
     required this.camera,
   }) : super(key: key);
@@ -16,10 +16,10 @@ class CameraPage extends StatefulWidget {
   final CameraDescription camera;
 
   @override
-  State<CameraPage> createState() => _CameraPageState();
+  State<CameraRecordPage> createState() => _CameraRecordPageState();
 }
 
-class _CameraPageState extends State<CameraPage> {
+class _CameraRecordPageState extends State<CameraRecordPage> {
   static const croppedLength = 100;
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;

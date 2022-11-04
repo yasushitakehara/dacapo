@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
-import 'camera_page.dart';
+import 'camera_record_page.dart';
 import 'practice_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -52,7 +52,7 @@ class _MenuPageState extends State<MenuPage> {
           final takenPictureFilePath = await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CameraPage(camera: firstCamera)));
+                  builder: (context) => CameraRecordPage(camera: firstCamera)));
 
           if (takenPictureFilePath != null) {
             print('received ' + takenPictureFilePath.toString());
