@@ -16,11 +16,11 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
-  runApp(const MyApp());
+  runApp(const DaCapoApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DaCapoApp extends StatelessWidget {
+  const DaCapoApp({super.key});
 
   // This widget is the root of your application.
   @override
