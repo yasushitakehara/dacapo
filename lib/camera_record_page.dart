@@ -4,16 +4,16 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart';
 
-import 'practice_page.dart';
+import 'logger.dart';
 import 'preview_page.dart';
 
 class CameraRecordPage extends StatefulWidget {
   const CameraRecordPage({
     Key? key,
-    required this.camera,
+    required this.cameraDesc,
   }) : super(key: key);
 
-  final CameraDescription camera;
+  final CameraDescription cameraDesc;
 
   @override
   State<CameraRecordPage> createState() => _CameraRecordPageState();
@@ -30,7 +30,7 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
 
     _controller = CameraController(
       // カメラを指定
-      widget.camera,
+      widget.cameraDesc,
       // 解像度を定義
       ResolutionPreset.medium,
     );
@@ -61,7 +61,7 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
               height: 1.0,
               child: Container(
                 width: double.infinity,
-                color: Colors.orange,
+                color: Colors.pink,
               ),
             ),
             Positioned(
@@ -70,7 +70,7 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
               height: 1.0,
               child: Container(
                 width: double.infinity,
-                color: Colors.orange,
+                color: Colors.pink,
               ),
             ),
           ],
@@ -80,14 +80,10 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
         onPressed: () async {
           // 写真を撮る
           final image = await _controller.takePicture();
-          print('path を出力');
-          print(image.path);
+          logger.fine('path を出力 =  ${image.path}');
           //imageパッケージのImage型に変換
           final decodedImage =
               decodeImage(await File(image.path).readAsBytes())!;
-//画像をリサイズ
-          //final resizedImage = copyResize(decodedImage, width: saveImageWidth);
-//左上を起点に正方形（縦横同じ長さ）に切り抜き
           final croppedImage = copyCrop(decodedImage, 0, croppedLength,
               decodedImage.width, decodedImage.height - (croppedLength * 2));
 
@@ -96,10 +92,9 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
               image.path.replaceFirst('.jpg', '_cropped.jpg');
           final croppedImageFile = await File(croppedImagePath)
               .writeAsBytes(encodePng(croppedImage));
-          print(croppedImageFile.path);
+          logger.fine(croppedImageFile.path);
 
-          // 表示用の画面に遷移
-          await Navigator.of(context).push(
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) =>
                   PreviewPage(imagePath: croppedImageFile.path),
@@ -107,7 +102,7 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
             ),
           );
         },
-        child: const Icon(Icons.camera_alt),
+        child: const Icon(Icons.camera),
       ),
     );
   }

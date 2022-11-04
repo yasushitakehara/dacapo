@@ -182,6 +182,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "logging",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/logging-1.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/matcher-0.12.12",
       "packageUri": "lib/",
@@ -274,6 +280,12 @@
     {
       "name": "quiver",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "simple_logger",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/simple_logger-1.9.0+1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -392,7 +404,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-11-04T07:53:29.291296Z",
+  "generated": "2022-11-04T11:55:57.255780Z",
   "generator": "pub",
   "generatorVersion": "2.18.4"
 }

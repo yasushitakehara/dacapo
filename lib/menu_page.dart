@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 
 import 'camera_record_page.dart';
+import 'logger.dart';
 import 'practice_page.dart';
 
 class MenuPage extends StatefulWidget {
@@ -14,10 +15,11 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  List<Widget> _scoreList = [];
+  final List<Widget> _scoreList = [];
 
   @override
   Widget build(BuildContext context) {
+    logger.fine('build');
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -28,7 +30,7 @@ class _MenuPageState extends State<MenuPage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text('Da Capo 練習メニュー'),
+        title: const Text('Da Capo 練習メニュー'),
         centerTitle: true,
       ),
       body: SizedBox(
@@ -44,24 +46,25 @@ class _MenuPageState extends State<MenuPage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          logger.fine('onPressed');
           // デバイスで使用可能なカメラのリストを取得
           final cameras = await availableCameras();
           // 利用可能なカメラのリストから特定のカメラを取得
           final firstCamera = cameras.first;
-
           final takenPictureFilePath = await Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => CameraRecordPage(camera: firstCamera)));
+                  builder: (context) =>
+                      CameraRecordPage(cameraDesc: firstCamera)));
 
           if (takenPictureFilePath != null) {
-            print('received ' + takenPictureFilePath.toString());
+            logger.fine('received ${takenPictureFilePath.toString()}');
             setState(() {
               _scoreList.add(_showScoreBox(
                   context, _scoreList.length, takenPictureFilePath.toString()));
             });
           } else {
-            print('It is null');
+            logger.fine('It is null');
           }
         },
         tooltip: '新しい楽譜を追加する',
@@ -74,6 +77,7 @@ class _MenuPageState extends State<MenuPage> {
       BuildContext context, int index, String pictureFilePath) {
     return InkWell(
       onTap: () {
+        logger.fine('onTap');
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -81,23 +85,25 @@ class _MenuPageState extends State<MenuPage> {
                     PracticePage(pictureFilePath: pictureFilePath)));
       },
       onLongPress: () {
+        logger.fine('onLongPress');
         showDialog(
           context: context,
           builder: (_) {
             return AlertDialog(
-              title: Text("削除確認"),
+              title: const Text("削除確認"),
               content: Text("この楽譜データ[$index]を削除しますか？"),
               actions: <Widget>[
-                // ボタン領域
                 ElevatedButton(
-                  child: Text("いいえ"),
+                  child: const Text("いいえ"),
                   onPressed: () {
+                    logger.fine('onPressed');
                     Navigator.pop(context);
                   },
                 ),
                 ElevatedButton(
-                  child: Text("はい"),
+                  child: const Text("はい"),
                   onPressed: () {
+                    logger.fine('onPressed');
                     setState(() {
                       _scoreList.removeAt(index);
                     });
@@ -111,17 +117,17 @@ class _MenuPageState extends State<MenuPage> {
       },
       child: Container(
         margin: const EdgeInsets.all(8),
-        child: FittedBox(
-          fit: BoxFit.contain,
-          child: Image.file(
-            File(pictureFilePath),
-          ),
-        ),
         width: 200,
         height: 200,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(10),
+        ),
+        child: FittedBox(
+          fit: BoxFit.contain,
+          child: Image.file(
+            File(pictureFilePath),
+          ),
         ),
       ),
     );

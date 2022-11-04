@@ -39,9 +39,10 @@ dependencies:
   # originally added for dacapo!
   google_fonts: ^3.0.1
   camera: ^0.10.0+4
+  image: ^3.2.2
   path_provider: ^2.0.11
   path: ^1.8.2
-  image: ^3.2.2
+  simple_logger: ^1.9.0+1
   video_player: ^2.4.7
 
 dev_dependencies:

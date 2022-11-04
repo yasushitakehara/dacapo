@@ -5,6 +5,8 @@ import 'package:dacapo/video_record_page.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import 'logger.dart';
+
 class PracticePage extends StatefulWidget {
   const PracticePage({super.key, required this.pictureFilePath});
 
@@ -23,18 +25,11 @@ class _PracticePageState extends State<PracticePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('build!');
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    logger.fine('build');
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text('DaCapo 練習'),
+        title: const Text('DaCapo 練習'),
         centerTitle: true,
       ),
       body: Column(
@@ -42,10 +37,10 @@ class _PracticePageState extends State<PracticePage> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                  child: Icon(Icons.video_call),
                   onPressed: () async {
+                    logger.fine('onPressed');
                     // デバイスで使用可能なカメラのリストを取得
                     final cameras = await availableCameras();
                     _specimenVideoXFile = await Navigator.push(
@@ -53,11 +48,11 @@ class _PracticePageState extends State<PracticePage> {
                         MaterialPageRoute(
                             builder: (context) =>
                                 VideoRecordPage(camera: cameras.first)));
-                    print('specimenVideoXFile = $_specimenVideoXFile');
+                    logger.fine('specimenVideoXFile = $_specimenVideoXFile');
                     if (_specimenVideoXFile != null) {
+                      logger.fine('_specimenVideoXFile != null');
                       _videoController = VideoPlayerController.file(
                           File(_specimenVideoXFile!.path));
-                      print('aaaa');
                       await _videoController!.initialize().then((_) {
                         // Ensure the first frame is shown after the video is initialized,
                         // even before the play button has been pressed.
@@ -65,17 +60,15 @@ class _PracticePageState extends State<PracticePage> {
                       });
                     }
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.deepOrangeAccent
-                      //onPrimary: Colors.black,
-                      ),
+                  child: const Icon(Icons.video_call),
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
-                  child: Icon(Icons.compare_arrows),
+                  child: const Icon(Icons.compare),
                   onPressed: () async {
+                    logger.fine('onPressed');
                     setState(() {
                       _showScore = !_showScore;
                     });
@@ -91,6 +84,7 @@ class _PracticePageState extends State<PracticePage> {
                   divisions: 100,
                   label: _currentSliderValue.toStringAsFixed(1),
                   onChanged: (double value) {
+                    logger.fine('onChanged');
                     setState(() {
                       _currentSliderValue = value;
                     });
@@ -99,14 +93,16 @@ class _PracticePageState extends State<PracticePage> {
               ),
               const Text('秒後'),
               Container(
-                margin: EdgeInsets.all(8),
+                margin: const EdgeInsets.all(8),
                 child: ElevatedButton(
                   child: _isPlaying
-                      ? Icon(Icons.stop_circle)
-                      : Icon(Icons.play_circle),
+                      ? const Icon(Icons.stop_circle)
+                      : const Icon(Icons.play_circle),
                   onPressed: () {
+                    logger.fine('onPressed');
                     setState(() {
                       _isPlaying = !_isPlaying;
+                      logger.fine('_isPlaying = $_isPlaying');
                       if (_isPlaying) {
                         _startVideoPlayer();
                       } else {
@@ -142,17 +138,17 @@ class _PracticePageState extends State<PracticePage> {
       return Image.file(File(widget.pictureFilePath));
     }
 
-    print(_specimenVideoXFile != null);
-    print(_videoController != null);
+    logger.fine(_specimenVideoXFile != null);
+    logger.fine(_videoController != null);
     if (_specimenVideoXFile != null && _videoController != null) {
       return VideoPlayer(_videoController!);
     } else {
-      return Text('先にビデオを撮ること');
+      return const Text('先にビデオを撮ること');
     }
   }
 
   Future<void> _startVideoPlayer() async {
-    print(_specimenVideoXFile != null);
+    logger.fine(_specimenVideoXFile != null);
     if (_specimenVideoXFile != null) {
       await _videoController!.setLooping(true);
       await _videoController!
