@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:dacapo/%20view/debug_page.dart';
-import 'package:dacapo/%20view/help_page.dart';
-import 'package:dacapo/%20view/practice_page.dart';
+import 'package:dacapo/view/debug_page.dart';
+import 'package:dacapo/view/help_page.dart';
+import 'package:dacapo/view/practice_page.dart';
 import 'package:dacapo/model/repository/score_dao.dart';
 import 'package:dacapo/model/score_dto.dart';
 import 'package:dacapo/presenter/menu_presenter.dart';

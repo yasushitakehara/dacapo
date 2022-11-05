@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:dacapo/%20view/video_record_page.dart';
+import 'package:dacapo/view/video_record_page.dart';
 import 'package:dacapo/model/score_dto.dart';
 import 'package:dacapo/presenter/practice_presenter.dart';
 import 'package:dacapo/util/dacapo_util.dart';

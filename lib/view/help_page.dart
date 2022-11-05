@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:dacapo/%20view/debug_page.dart';
-import 'package:dacapo/%20view/practice_page.dart';
+import 'package:dacapo/view/debug_page.dart';
+import 'package:dacapo/view/practice_page.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:dacapo/%20view/preview_page.dart';
+import 'package:dacapo/view/preview_page.dart';
 import 'package:dacapo/model/camera_manager.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
