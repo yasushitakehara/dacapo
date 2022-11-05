@@ -31,7 +31,6 @@ class _PracticePageState extends State<PracticePage> {
   ChewieController? _chewieController;
   final List<bool> _selections = [false];
   bool _isWaiting = false;
-  bool _alreadySetTimerPeriodic = false;
 
   @override
   void initState() {
@@ -71,14 +70,6 @@ class _PracticePageState extends State<PracticePage> {
   @override
   Widget build(BuildContext context) {
     logger.fine('build');
-
-    final aaaButton = ElevatedButton(
-      onPressed: () async {
-        logger.fine('onPressed');
-        _chewieController!.pause();
-      },
-      child: const Icon(Icons.stop_circle),
-    );
 
     return Scaffold(
       appBar: AppBar(
@@ -139,76 +130,6 @@ class _PracticePageState extends State<PracticePage> {
                         ),
                         autoInitialize: true, //widget呼び出し時に動画を読み込むかどうか
                       );
-
-                      // _videoController!.addListener(() {
-                      //   logger
-                      //       .info('isPlaying? ${_chewieController!.isPlaying}');
-                      //   if (_chewieController!.isPlaying) {
-                      //     logger.fine('playing! enjoy-!');
-                      //     return;
-                      //   } else if (_isWaiting) {
-                      //     logger.fine('waiting for delay.');
-                      //     return;
-                      //   }
-
-                      //   logger.fine('we will repeat after a while!');
-                      //   _isWaiting = true;
-
-                      //   int sleepMilliSec = DaCapoUtil.toRepeatDelayMilliSecond(
-                      //       _currentSliderValue);
-                      //   logger.fine('sleep $sleepMilliSec milliseconds');
-                      //   sleep(Duration(milliseconds: sleepMilliSec));
-                      //   logger.fine('has waken up! repeat again!');
-                      //   aaaButton.onPressed;
-                      //   _isWaiting = false;
-                      //   //   //setState(() {
-                      //   //   //_videoController!.play();
-                      //   //   //});
-
-                      //   //   _chewieController!
-                      //   //       .seekTo(Duration.zero)
-                      //   //       .then((_) => _chewieController!.play());
-                      //   //   setState(() {
-                      //   //     logger.fine('bbbbbbbbbbbbbbbbbbb');
-                      //   //     _isWaiting = false;
-                      //   //   });
-                      // });
-
-                      // if (!_alreadySetTimerPeriodic) {
-                      //   Timer.periodic(new Duration(microseconds: 500),
-                      //       (timer) {
-                      //     if (_chewieController == null) {
-                      //       logger.fine('No video yet...');
-                      //       return;
-                      //     }
-                      //     logger.info(
-                      //         'isPlaying? ${_chewieController!.isPlaying}');
-                      //     if (_chewieController!.isPlaying) {
-                      //       logger.fine('playing! enjoy-!');
-                      //       return;
-                      //     } else if (_isWaiting) {
-                      //       logger.fine('waiting for delay.');
-                      //       return;
-                      //     }
-
-                      //     logger.fine('we will repeat after a while!');
-                      //     _isWaiting = true;
-
-                      //     int sleepMilliSec =
-                      //         DaCapoUtil.toRepeatDelayMilliSecond(
-                      //             _currentSliderValue);
-                      //     logger.fine('sleep $sleepMilliSec millisecondssssss');
-                      //     sleep(Duration(milliseconds: sleepMilliSec));
-                      //     logger.fine('has waken up! repeat again!');
-                      //     _chewieController!.play();
-                      //     setState(
-                      //       () {
-                      //         _isWaiting = false;
-                      //       },
-                      //     );
-                      //   });
-                      //   _alreadySetTimerPeriodic = true;
-                      // }
                     }
                   },
                   child: const Icon(Icons.video_call),
@@ -256,20 +177,6 @@ class _PracticePageState extends State<PracticePage> {
                   },
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.all(8),
-                child: ElevatedButton(
-                  onPressed: () async {
-                    logger.fine('onPressed');
-                    _chewieController!.play();
-                  },
-                  child: const Icon(Icons.play_arrow),
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(8),
-                child: aaaButton,
-              ),
             ],
           ),
           Container(
@@ -283,7 +190,7 @@ class _PracticePageState extends State<PracticePage> {
               // ),
               child: Container(
             height: 200,
-            width: 400,
+            //width: 400,
             child: _createMainContent(),
           )),
         ],
@@ -303,7 +210,9 @@ class _PracticePageState extends State<PracticePage> {
         controller: _chewieController!,
       );
     } else {
-      return const Text('お手本をビデオを撮ると、ここに表示されます。リピートさせながら練習しましよう。');
+      return const Center(
+        child: Text('お手本をビデオを撮ると、ここに表示されます。リピートさせながら練習しましよう。'),
+      );
     }
   }
 
