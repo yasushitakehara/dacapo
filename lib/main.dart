@@ -3,9 +3,9 @@ import 'package:dacapo/model/repository/score_dao.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import ' view/menu_page.dart';
+import 'view/menu_page.dart';
 
 void main() {
   logger.info('start dacapo!!');
@@ -28,14 +28,23 @@ class DaCapoApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    const locale = Locale('ja', 'JP');
     return MaterialApp(
+      locale: locale,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        locale,
+      ],
       theme: ThemeData(
         primarySwatch: Colors.pink,
 
         // setting for dacapo!
         appBarTheme: const AppBarTheme(color: Color.fromARGB(255, 0, 0, 0)),
-        textTheme:
-            GoogleFonts.sawarabiGothicTextTheme(Theme.of(context).textTheme),
+        fontFamily: 'NotoSansJP',
       ),
       home: MenuPage(),
     );
