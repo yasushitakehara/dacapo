@@ -44,12 +44,6 @@ class PracticePresenter {
 
       // 以下はオプション（なくてもOK）
       allowFullScreen: false,
-      materialProgressColors: ChewieProgressColors(
-        playedColor: Colors.red, //再生済み部分（左側）の色
-        handleColor: Colors.blue, //再生地点を示すハンドルの色
-        backgroundColor: Colors.grey, //再生前のプログレスバーの色
-        bufferedColor: Colors.lightGreen, //未再生部分（右側）の色
-      ),
       autoInitialize: true, //widget呼び出し時に動画を読み込むかどうか
     );
   }

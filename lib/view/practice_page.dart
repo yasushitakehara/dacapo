@@ -73,11 +73,7 @@ class _PracticePageState extends State<PracticePage> {
       sleep(Duration(milliseconds: sleepMilliSec));
       logger.fine('has waken up! repeat again!');
       _chewieController!.play();
-      setState(
-        () {
-          _isWaiting = false;
-        },
-      );
+      _isWaiting = false;
     });
   }
 
@@ -117,7 +113,6 @@ class _PracticePageState extends State<PracticePage> {
                         await _videoController!.dispose();
                         _chewieController!.dispose();
                       }
-
                       prepareVideoControllers(widget.dto.videoFilePath!);
                     }
                   },
