@@ -1,14 +1,20 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:dacapo/%20view/help_page.dart';
 import 'package:dacapo/%20view/practice_page.dart';
+import 'package:dacapo/model/repository/score_dao.dart';
+import 'package:dacapo/model/score_dto.dart';
+import 'package:dacapo/presenter/menu_presenter.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 
 import 'camera_record_page.dart';
 
 class MenuPage extends StatefulWidget {
-  const MenuPage({super.key});
+  MenuPage({super.key});
+
+  final MenuPresenter _presenter = MenuPresenter();
 
   @override
   State<MenuPage> createState() => _MenuPageState();
@@ -16,30 +22,71 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   final List<Widget> _scoreList = [];
+  bool _buildFlag = false;
+  _callBuild() {
+    setState(() {
+      _buildFlag = !_buildFlag;
+    });
+  }
+
+  Future<List<ScoreDto>> getData() async {
+    return await widget._presenter.loadScoreDtoList();
+  }
 
   @override
   Widget build(BuildContext context) {
     logger.fine('build');
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: const Text('Da Capo 練習メニュー（楽譜を長押しすると削除できます）'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.help,
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HelpPage()));
+            },
+          )
+        ],
       ),
       body: SizedBox(
         height: 200,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: _scoreList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return _scoreList[index];
+        child: FutureBuilder(
+          future: getData(),
+          builder: (context, AsyncSnapshot<List<ScoreDto>> snapshot) {
+            List<Widget> child;
+
+            if (snapshot.hasData) {
+              List<Widget> resultList = [];
+              final dtoList = snapshot.data!;
+              for (int i = 0; i < dtoList.length; i++) {
+                resultList.add(_showScoreBox(context, i, dtoList[i]));
+              }
+
+              return ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: resultList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return resultList[index];
+                },
+              );
+            } else if (snapshot.hasError) {
+              child = [
+                Center(
+                  child: Text('エラー：' + snapshot.data.toString()),
+                ),
+              ];
+            } else {
+              child = [Text('')];
+            }
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: child,
+            );
           },
         ),
       ),
@@ -52,10 +99,10 @@ class _MenuPageState extends State<MenuPage> {
 
           if (takenPictureFilePath != null) {
             logger.fine('received ${takenPictureFilePath.toString()}');
-            setState(() {
-              _scoreList.add(_showScoreBox(
-                  context, _scoreList.length, takenPictureFilePath.toString()));
-            });
+
+            final dto = ScoreDto.createNewScoreDto(takenPictureFilePath);
+            widget._presenter.addNewScoreDto(dto);
+            _callBuild();
           } else {
             logger.fine('It is null');
           }
@@ -66,8 +113,7 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  Widget _showScoreBox(
-      BuildContext context, int index, String pictureFilePath) {
+  Widget _showScoreBox(BuildContext context, int index, ScoreDto dto) {
     return InkWell(
       onTap: () {
         logger.fine('onTap');
@@ -75,38 +121,15 @@ class _MenuPageState extends State<MenuPage> {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    PracticePage(pictureFilePath: pictureFilePath)));
+                    PracticePage(pictureFilePath: dto.imageFilePath!)));
       },
-      onLongPress: () {
+      onLongPress: () async {
         logger.fine('onLongPress');
-        showDialog(
-          context: context,
-          builder: (_) {
-            return AlertDialog(
-              title: const Text("削除確認"),
-              content: Text("この楽譜データ[$index]を削除しますか？"),
-              actions: <Widget>[
-                ElevatedButton(
-                  child: const Text("いいえ"),
-                  onPressed: () {
-                    logger.fine('onPressed');
-                    Navigator.pop(context);
-                  },
-                ),
-                ElevatedButton(
-                  child: const Text("はい"),
-                  onPressed: () {
-                    logger.fine('onPressed');
-                    setState(() {
-                      _scoreList.removeAt(index);
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            );
-          },
-        );
+
+        if (await widget._presenter.showDeleteConfirmDialog(context, dto)) {
+          await ScoreDao.dao.deleteScoreDto(dto.ID!);
+          _callBuild();
+        }
       },
       child: Container(
         margin: const EdgeInsets.all(8),
@@ -119,7 +142,7 @@ class _MenuPageState extends State<MenuPage> {
         child: FittedBox(
           fit: BoxFit.contain,
           child: Image.file(
-            File(pictureFilePath),
+            File(dto.imageFilePath!),
           ),
         ),
       ),

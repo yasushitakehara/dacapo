@@ -194,6 +194,12 @@
       "languageVersion": "2.15"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "js",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.4",
       "packageUri": "lib/",
@@ -310,6 +316,54 @@
     {
       "name": "quiver",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/quiver-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "shared_preferences",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences-2.0.15",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "shared_preferences_android",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.14",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "shared_preferences_ios",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_ios-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
+      "name": "shared_preferences_linux",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_linux-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "shared_preferences_macos",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_macos-2.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "shared_preferences_platform_interface",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_platform_interface-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "shared_preferences_web",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_web-2.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "shared_preferences_windows",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_windows-2.1.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -440,7 +494,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-11-04T13:29:27.969226Z",
+  "generated": "2022-11-05T05:40:59.584641Z",
   "generator": "pub",
   "generatorVersion": "2.18.4"
 }

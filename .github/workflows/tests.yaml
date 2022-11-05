@@ -1,0 +1,11 @@
+# referenece
+# https://blog.gskinner.com/archives/2022/01/flutter-easily-add-ci-testing-with-github-actions.html
+name: test-dacapo
+on: [push, workflow_dispatch]
+jobs:
+  drive:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+      - run: flutter test
