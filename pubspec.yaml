@@ -47,7 +47,8 @@ dependencies:
   path: ^1.8.2 # to handle image file
   shared_preferences: ^2.0.15 # to save score data
   simple_logger: ^1.9.0+1 # for logging
-  video_player: ^2.4.7 # to take a video for specimen
+  video_player: ^2.4.7 # to play video for specimen
+  chewie: ^1.3.5 # to play video
 
 dev_dependencies:
   flutter_test:

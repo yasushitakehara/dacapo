@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
@@ -7,6 +8,9 @@ import 'package:dacapo/presenter/practice_presenter.dart';
 import 'package:dacapo/util/dacapo_util.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
+import 'package:chewie/chewie.dart';
+import 'package:chewie/src/chewie_player.dart';
+import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 class PracticePage extends StatefulWidget {
@@ -20,16 +24,61 @@ class PracticePage extends StatefulWidget {
 }
 
 class _PracticePageState extends State<PracticePage> {
-  double _currentSliderValue = 1.0;
-  bool _isPlaying = false;
+  double _currentSliderValue = 3.0;
   XFile? _specimenVideoXFile;
   bool _showScore = true;
   VideoPlayerController? _videoController;
+  ChewieController? _chewieController;
   final List<bool> _selections = [false];
+  bool _isWaiting = false;
+  bool _alreadySetTimerPeriodic = false;
+
+  @override
+  void initState() {
+    logger.fine('initState');
+    super.initState();
+    Timer.periodic(new Duration(milliseconds: 500), (timer) {
+      if (_chewieController == null) {
+        logger.fine('No video yet...');
+        return;
+      }
+      logger.info('isPlaying? ${_chewieController!.isPlaying}');
+      if (_chewieController!.isPlaying) {
+        logger.fine('playing! enjoy-!');
+        return;
+      } else if (_isWaiting) {
+        logger.fine('waiting for delay.');
+        return;
+      }
+
+      logger.fine('we will repeat after a while!');
+      _isWaiting = true;
+
+      int sleepMilliSec =
+          DaCapoUtil.toRepeatDelayMilliSecond(_currentSliderValue);
+      logger.fine('sleep $sleepMilliSec millisecondssssss');
+      sleep(Duration(milliseconds: sleepMilliSec));
+      logger.fine('has waken up! repeat again!');
+      _chewieController!.play();
+      setState(
+        () {
+          _isWaiting = false;
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     logger.fine('build');
+
+    final aaaButton = ElevatedButton(
+      onPressed: () async {
+        logger.fine('onPressed');
+        _chewieController!.pause();
+      },
+      child: const Icon(Icons.stop_circle),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -58,6 +107,10 @@ class _PracticePageState extends State<PracticePage> {
                       // do not await for parallel process.
                       widget._presenter.update(widget.dto);
 
+                      if (_videoController != null) {
+                        await _videoController!.dispose();
+                        _chewieController!.dispose();
+                      }
                       _videoController = VideoPlayerController.file(
                           File(_specimenVideoXFile!.path));
                       await _videoController!.initialize().then((_) {
@@ -65,27 +118,97 @@ class _PracticePageState extends State<PracticePage> {
                         // even before the play button has been pressed.
                         setState(() {});
                       });
-                      _videoController!.addListener(() {
-                        if (_isPlaying &&
-                            !_videoController!.value.isPlaying &&
-                            (_videoController!.value.duration ==
-                                _videoController!.value.position)) {
-                          //checking the duration and position every time
-                          logger.fine('reached the end of the movie!');
-                          int sleepMilliSec =
-                              DaCapoUtil.toRepeatDelayMilliSecond(
-                                  _currentSliderValue);
-                          logger.fine('sleep $sleepMilliSec milliseconds');
-                          sleep(Duration(milliseconds: sleepMilliSec));
-                          logger.fine('repeat again!');
-                          //setState(() {
-                          //_videoController!.play();
-                          //});
-                          _videoController!
-                              .seekTo(Duration.zero)
-                              .then((_) => _videoController!.play());
-                        }
-                      });
+                      _chewieController = ChewieController(
+                        videoPlayerController: _videoController!,
+                        //aspectRatio: 3 / 2, //アスペクト比
+                        autoPlay: false, //自動再生
+                        looping: false, //繰り返し再生
+                        //progressIndicatorDelay: const Duration(seconds: 10),
+
+                        // 以下はオプション（なくてもOK）
+                        allowFullScreen: false,
+                        showControls: true, //コントロールバーの表示（デフォルトではtrue）
+                        materialProgressColors: ChewieProgressColors(
+                          playedColor: Colors.red, //再生済み部分（左側）の色
+                          handleColor: Colors.blue, //再生地点を示すハンドルの色
+                          backgroundColor: Colors.grey, //再生前のプログレスバーの色
+                          bufferedColor: Colors.lightGreen, //未再生部分（右側）の色
+                        ),
+                        placeholder: Container(
+                          color: Colors.grey, //動画読み込み前の背景色
+                        ),
+                        autoInitialize: true, //widget呼び出し時に動画を読み込むかどうか
+                      );
+
+                      // _videoController!.addListener(() {
+                      //   logger
+                      //       .info('isPlaying? ${_chewieController!.isPlaying}');
+                      //   if (_chewieController!.isPlaying) {
+                      //     logger.fine('playing! enjoy-!');
+                      //     return;
+                      //   } else if (_isWaiting) {
+                      //     logger.fine('waiting for delay.');
+                      //     return;
+                      //   }
+
+                      //   logger.fine('we will repeat after a while!');
+                      //   _isWaiting = true;
+
+                      //   int sleepMilliSec = DaCapoUtil.toRepeatDelayMilliSecond(
+                      //       _currentSliderValue);
+                      //   logger.fine('sleep $sleepMilliSec milliseconds');
+                      //   sleep(Duration(milliseconds: sleepMilliSec));
+                      //   logger.fine('has waken up! repeat again!');
+                      //   aaaButton.onPressed;
+                      //   _isWaiting = false;
+                      //   //   //setState(() {
+                      //   //   //_videoController!.play();
+                      //   //   //});
+
+                      //   //   _chewieController!
+                      //   //       .seekTo(Duration.zero)
+                      //   //       .then((_) => _chewieController!.play());
+                      //   //   setState(() {
+                      //   //     logger.fine('bbbbbbbbbbbbbbbbbbb');
+                      //   //     _isWaiting = false;
+                      //   //   });
+                      // });
+
+                      // if (!_alreadySetTimerPeriodic) {
+                      //   Timer.periodic(new Duration(microseconds: 500),
+                      //       (timer) {
+                      //     if (_chewieController == null) {
+                      //       logger.fine('No video yet...');
+                      //       return;
+                      //     }
+                      //     logger.info(
+                      //         'isPlaying? ${_chewieController!.isPlaying}');
+                      //     if (_chewieController!.isPlaying) {
+                      //       logger.fine('playing! enjoy-!');
+                      //       return;
+                      //     } else if (_isWaiting) {
+                      //       logger.fine('waiting for delay.');
+                      //       return;
+                      //     }
+
+                      //     logger.fine('we will repeat after a while!');
+                      //     _isWaiting = true;
+
+                      //     int sleepMilliSec =
+                      //         DaCapoUtil.toRepeatDelayMilliSecond(
+                      //             _currentSliderValue);
+                      //     logger.fine('sleep $sleepMilliSec millisecondssssss');
+                      //     sleep(Duration(milliseconds: sleepMilliSec));
+                      //     logger.fine('has waken up! repeat again!');
+                      //     _chewieController!.play();
+                      //     setState(
+                      //       () {
+                      //         _isWaiting = false;
+                      //       },
+                      //     );
+                      //   });
+                      //   _alreadySetTimerPeriodic = true;
+                      // }
                     }
                   },
                   child: const Icon(Icons.video_call),
@@ -119,28 +242,6 @@ class _PracticePageState extends State<PracticePage> {
               const Text('秒'),
               Container(
                 margin: const EdgeInsets.all(8),
-                child: ElevatedButton(
-                  child: _isPlaying
-                      ? const Icon(Icons.stop_circle)
-                      : const Icon(Icons.play_circle),
-                  onPressed: _specimenVideoXFile == null
-                      ? null
-                      : () {
-                          logger.fine('onPressed');
-                          setState(() {
-                            _isPlaying = !_isPlaying;
-                            logger.fine('_isPlaying = $_isPlaying');
-                            if (_isPlaying) {
-                              _startVideoPlayer();
-                            } else {
-                              _videoController!.pause();
-                            }
-                          });
-                        },
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(8),
                 child: ToggleButtons(
                   children: <Widget>[
                     Icon(Icons.waving_hand),
@@ -154,6 +255,20 @@ class _PracticePageState extends State<PracticePage> {
                     });
                   },
                 ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(8),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    logger.fine('onPressed');
+                    _chewieController!.play();
+                  },
+                  child: const Icon(Icons.play_arrow),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(8),
+                child: aaaButton,
               ),
             ],
           ),
@@ -184,7 +299,9 @@ class _PracticePageState extends State<PracticePage> {
     logger.fine(_specimenVideoXFile != null);
     logger.fine(_videoController != null);
     if (_specimenVideoXFile != null && _videoController != null) {
-      return VideoPlayer(_videoController!);
+      return Chewie(
+        controller: _chewieController!,
+      );
     } else {
       return const Text('お手本をビデオを撮ると、ここに表示されます。リピートさせながら練習しましよう。');
     }
@@ -197,5 +314,12 @@ class _PracticePageState extends State<PracticePage> {
           .seekTo(Duration.zero)
           .then((_) => _videoController!.play());
     }
+  }
+
+  @override
+  void dispose() {
+    _videoController?.dispose();
+    _chewieController?.dispose();
+    super.dispose();
   }
 }

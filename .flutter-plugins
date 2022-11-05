@@ -22,3 +22,6 @@ video_player=/Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/
 video_player_android=/Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/video_player_android-2.3.9/
 video_player_avfoundation=/Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/video_player_avfoundation-2.3.7/
 video_player_web=/Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/video_player_web-2.0.12/
+wakelock=/Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/wakelock-0.6.2/
+wakelock_macos=/Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/wakelock_macos-0.4.0/
+wakelock_web=/Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/wakelock_web-0.4.0/
