@@ -18,11 +18,6 @@ class _CameraRecordPageState extends State<CameraRecordPage> {
   static const croppedLength = 80;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     // FutureBuilder で初期化を待ってからプレビューを表示（それまではインジケータを表示）
     return Scaffold(

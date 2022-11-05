@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:dacapo/%20view/help_page.dart';
 import 'package:dacapo/%20view/practice_page.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
@@ -20,18 +21,21 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     logger.fine('build');
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: const Text('Da Capo 練習メニュー（楽譜を長押しすると削除できます）'),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.help,
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => HelpPage()));
+            },
+          )
+        ],
       ),
       body: SizedBox(
         height: 200,

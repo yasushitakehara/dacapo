@@ -5,22 +5,26 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:dacapo/util/date_format_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:dacapo/main.dart';
+import 'package:intl/intl.dart';
+
+// expect yyyyMMddTHHmmss
+final _scoreDtoIdFormat = new RegExp(r'^\d{8}T\d{6}$');
 
 void main() {
-  testWidgets('Simple UI Test for Da Capo', (WidgetTester tester) async {
+  test('createScoreDtoID', () {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const DaCapoApp());
+    String actualStr = DateFormatUtil.createScoreDtoID();
+    expect(_scoreDtoIdFormat.hasMatch(actualStr), isTrue);
 
-    expect(find.text('Da Capo 練習メニュー（楽譜を長押しすると削除できます）'), findsOneWidget);
+    DateTime actualDateTime = DateTime.parse(actualStr);
+    final diffMS = DateTime.now().difference(actualDateTime).inMilliseconds;
 
-    await tester.tap(find.byIcon(Icons.help));
-    await tester.pumpAndSettle();
-
-    expect(find.text('Da Capoとは？'), findsOneWidget);
-    expect(find.text('Da Capo 練習メニュー（楽譜を長押しすると削除できます）'), findsNothing);
+    // actualDateTime must be near current date time.
+    expect(diffMS, lessThanOrEqualTo(1000));
   });
 }
