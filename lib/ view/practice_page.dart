@@ -30,6 +30,7 @@ class _PracticePageState extends State<PracticePage> {
   VideoPlayerController? _videoController;
   ChewieController? _chewieController;
   bool _isWaiting = false;
+  bool _noRepeatFlag = false;
 
   @override
   void initState() {
@@ -46,6 +47,9 @@ class _PracticePageState extends State<PracticePage> {
         return;
       } else if (_isWaiting) {
         logger.fine('waiting for delay.');
+        return;
+      } else if (_noRepeatFlag) {
+        logger.fine('do not repeat!');
         return;
       }
 
@@ -184,6 +188,15 @@ class _PracticePageState extends State<PracticePage> {
                   child: const Icon(Icons.music_video),
                 ),
               ),
+              Text('リピート停止'),
+              Switch(
+                  value: _noRepeatFlag,
+                  onChanged: (value) {
+                    setState(() {
+                      _noRepeatFlag = value;
+                    });
+                    logger.info('_noRepeatFlag=$_noRepeatFlag');
+                  }),
             ],
           ),
           Expanded(
