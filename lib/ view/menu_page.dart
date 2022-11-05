@@ -48,11 +48,8 @@ class _MenuPageState extends State<MenuPage> {
               Icons.help,
             ),
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HelpPage()));
-
-              //Navigator.push(context,
-              //    MaterialPageRoute(builder: (context) => DebugPage()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const HelpPage()));
             },
           )
         ],
