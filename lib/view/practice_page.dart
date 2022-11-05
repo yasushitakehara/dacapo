@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:dacapo/util/date_format_util.dart';
 import 'package:dacapo/view/video_record_page.dart';
 import 'package:dacapo/model/score_dto.dart';
 import 'package:dacapo/presenter/practice_presenter.dart';
@@ -47,11 +48,13 @@ class _PracticePageState extends State<PracticePage> {
     logger.fine('initState');
     super.initState();
 
+    _currentSliderValue =
+        DaCapoUtil.toSliderValue(widget.dto.repeatDelayMilliSeconds!);
     if (widget.dto.videoFilePath != null) {
       prepareVideoControllers(widget.dto.videoFilePath!);
     }
 
-    Timer.periodic(new Duration(milliseconds: 500), (timer) {
+    Timer.periodic(const Duration(milliseconds: 500), (timer) {
       if (_chewieController == null) {
         logger.fine('No video yet...');
         return;

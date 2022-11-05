@@ -5,7 +5,7 @@ class DaCapoUtil {
     return (sliderValue * 1000).toInt();
   }
 
-  static int toSliderValue(int repeatDelayMilliSecond) {
-    return (repeatDelayMilliSecond / 1000).toInt();
+  static double toSliderValue(int repeatDelayMilliSecond) {
+    return repeatDelayMilliSecond / 1000;
   }
 }
