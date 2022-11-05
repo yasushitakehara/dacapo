@@ -1,4 +1,6 @@
-# dacapo
+![](https://github.com/<OWNER>/<REPOSITORY>/workflows/<WORKFLOW_NAME>/badge.svg)
+
+# Da Capo
 A new Flutter project for smartphone to practice piano.
 
 ## Getting Started
