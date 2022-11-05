@@ -37,14 +37,15 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # added for dacapo!
-  google_fonts: ^3.0.1 # for Japanese font
   camera: ^0.10.0+4 # to take a photo for score
+  google_fonts: ^3.0.1 # for Japanese font
   image: ^3.2.2 # to handle image file
+  intl: ^0.17.0 # to deal with DateFormat
   path_provider: ^2.0.11 # to handle image file
   path: ^1.8.2 # to handle image file
+  shared_preferences: ^2.0.15 # to save score data
   simple_logger: ^1.9.0+1 # for logging
   video_player: ^2.4.7 # to take a video for specimen
-  intl: ^0.17.0 # to deal with DateFormat
 
 dev_dependencies:
   flutter_test:

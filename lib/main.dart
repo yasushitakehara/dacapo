@@ -36,7 +36,7 @@ class DaCapoApp extends StatelessWidget {
         textTheme:
             GoogleFonts.sawarabiGothicTextTheme(Theme.of(context).textTheme),
       ),
-      home: const MenuPage(),
+      home: MenuPage(),
     );
   }
 }

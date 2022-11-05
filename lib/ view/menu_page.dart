@@ -3,13 +3,17 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:dacapo/%20view/help_page.dart';
 import 'package:dacapo/%20view/practice_page.dart';
+import 'package:dacapo/model/score_dto.dart';
+import 'package:dacapo/presenter/menu_presenter.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 
 import 'camera_record_page.dart';
 
 class MenuPage extends StatefulWidget {
-  const MenuPage({super.key});
+  MenuPage({super.key});
+
+  final MenuPresenter _presenter = MenuPresenter();
 
   @override
   State<MenuPage> createState() => _MenuPageState();
@@ -21,6 +25,10 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     logger.fine('build');
+
+    // TODO
+    final scoreDtoList = widget._presenter.loadScoreDtoList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Da Capo 練習メニュー（楽譜を長押しすると削除できます）'),
@@ -81,36 +89,14 @@ class _MenuPageState extends State<MenuPage> {
                 builder: (context) =>
                     PracticePage(pictureFilePath: pictureFilePath)));
       },
-      onLongPress: () {
+      onLongPress: () async {
         logger.fine('onLongPress');
-        showDialog(
-          context: context,
-          builder: (_) {
-            return AlertDialog(
-              title: const Text("削除確認"),
-              content: Text("この楽譜データ[$index]を削除しますか？"),
-              actions: <Widget>[
-                ElevatedButton(
-                  child: const Text("いいえ"),
-                  onPressed: () {
-                    logger.fine('onPressed');
-                    Navigator.pop(context);
-                  },
-                ),
-                ElevatedButton(
-                  child: const Text("はい"),
-                  onPressed: () {
-                    logger.fine('onPressed');
-                    setState(() {
-                      _scoreList.removeAt(index);
-                    });
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            );
-          },
-        );
+
+        if (await widget._presenter.showDeleteConfirmDialog(context, index)) {
+          setState(() {
+            _scoreList.removeAt(index);
+          });
+        }
       },
       child: Container(
         margin: const EdgeInsets.all(8),
