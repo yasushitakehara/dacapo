@@ -29,7 +29,6 @@ class _PracticePageState extends State<PracticePage> {
   bool _showScore = true;
   VideoPlayerController? _videoController;
   ChewieController? _chewieController;
-  final List<bool> _selections = [false];
   bool _isWaiting = false;
 
   @override
@@ -97,6 +96,8 @@ class _PracticePageState extends State<PracticePage> {
 
                       // do not await for parallel process.
                       widget._presenter.update(widget.dto);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          widget._presenter.notifyRecordedVideoSnackBar);
 
                       if (_videoController != null) {
                         await _videoController!.dispose();
@@ -111,23 +112,18 @@ class _PracticePageState extends State<PracticePage> {
                       });
                       _chewieController = ChewieController(
                         videoPlayerController: _videoController!,
-                        //aspectRatio: 3 / 2, //アスペクト比
-                        autoPlay: false, //自動再生
-                        looping: false, //繰り返し再生
-                        //progressIndicatorDelay: const Duration(seconds: 10),
 
                         // 以下はオプション（なくてもOK）
                         allowFullScreen: false,
-                        showControls: true, //コントロールバーの表示（デフォルトではtrue）
                         materialProgressColors: ChewieProgressColors(
                           playedColor: Colors.red, //再生済み部分（左側）の色
                           handleColor: Colors.blue, //再生地点を示すハンドルの色
                           backgroundColor: Colors.grey, //再生前のプログレスバーの色
                           bufferedColor: Colors.lightGreen, //未再生部分（右側）の色
                         ),
-                        placeholder: Container(
-                          color: Colors.grey, //動画読み込み前の背景色
-                        ),
+                        /*placeholder: Container(
+                          color: Colors.white, //動画読み込み前の背景色
+                        ),*/
                         autoInitialize: true, //widget呼び出し時に動画を読み込むかどうか
                       );
                     }
@@ -163,23 +159,34 @@ class _PracticePageState extends State<PracticePage> {
               const Text('秒'),
               Container(
                 margin: const EdgeInsets.all(8),
-                child: ToggleButtons(
-                  children: <Widget>[
-                    Icon(Icons.waving_hand),
-                  ],
-                  isSelected: _selections,
-                  onPressed: (int index) {
-                    logger.fine('onPressed index=$index');
+                child: ElevatedButton(
+                  onPressed: () async {
                     setState(() {
-                      _selections[index] = !_selections[index];
-                      _showScore = !_showScore;
+                      _showScore = true;
                     });
                   },
+                  child: const Icon(Icons.lyrics),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(8),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (_chewieController == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          widget._presenter.urgeToRecordVideoSnackBar);
+                      return;
+                    }
+                    setState(() {
+                      _showScore = false;
+                    });
+                  },
+                  child: const Icon(Icons.music_video),
                 ),
               ),
             ],
           ),
-          Container(
+          Expanded(
               //margin: const EdgeInsets.all(8),
               // child: FittedBox(fit: BoxFit.contain, child: _createMainContent()),
               // width: 400, //double.infinity,
@@ -189,8 +196,7 @@ class _PracticePageState extends State<PracticePage> {
               //   borderRadius: BorderRadius.circular(20),
               // ),
               child: Container(
-            height: 200,
-            //width: 400,
+            //height: 200,
             child: _createMainContent(),
           )),
         ],
@@ -213,15 +219,6 @@ class _PracticePageState extends State<PracticePage> {
       return const Center(
         child: Text('お手本をビデオを撮ると、ここに表示されます。リピートさせながら練習しましよう。'),
       );
-    }
-  }
-
-  Future<void> _startVideoPlayer() async {
-    logger.fine(_specimenVideoXFile != null);
-    if (_specimenVideoXFile != null) {
-      await _videoController!
-          .seekTo(Duration.zero)
-          .then((_) => _videoController!.play());
     }
   }
 
