@@ -68,23 +68,25 @@ class ScoreDao {
     for (ScoreDto currentDto in currentDtoList) {
       if (currentDto.ID == updatingDto.ID) {
         logger.info('bingo! ${updatingDto.ID}');
-        if (currentDto.imageFilePath != updatingDto.imageFilePath) {
+        if (currentDto.imageFilePath != null &&
+            currentDto.imageFilePath != updatingDto.imageFilePath) {
           File imageFile = File(currentDto.imageFilePath!);
           if (imageFile.existsSync()) {
             imageFile.deleteSync();
           }
           logger.info('deleted ${currentDto.imageFilePath}');
         }
-        if (currentDto.videoFilePath != updatingDto.videoFilePath) {
+        if (currentDto.videoFilePath != null &&
+            currentDto.videoFilePath != updatingDto.videoFilePath) {
           File videoFile = File(currentDto.videoFilePath!);
           if (videoFile.existsSync()) {
             videoFile.deleteSync();
           }
           logger.info('deleted ${currentDto.videoFilePath}');
-          newDtoList.add(updatingDto);
-        } else {
-          newDtoList.add(currentDto);
         }
+        newDtoList.add(updatingDto);
+      } else {
+        newDtoList.add(currentDto);
       }
     }
     save(newDtoList);

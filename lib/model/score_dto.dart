@@ -28,4 +28,9 @@ class ScoreDto {
       'repeatDelayMilliSeconds': repeatDelayMilliSeconds
     };
   }
+
+  @override
+  String toString() {
+    return toJson().toString();
+  }
 }

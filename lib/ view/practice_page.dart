@@ -53,6 +53,11 @@ class _PracticePageState extends State<PracticePage> {
                     logger.fine('specimenVideoXFile = $_specimenVideoXFile');
                     if (_specimenVideoXFile != null) {
                       logger.fine('_specimenVideoXFile != null');
+                      widget.dto.videoFilePath = _specimenVideoXFile!.path;
+
+                      // do not await for parallel process.
+                      widget._presenter.update(widget.dto);
+
                       _videoController = VideoPlayerController.file(
                           File(_specimenVideoXFile!.path));
                       await _videoController!.initialize().then((_) {
@@ -80,7 +85,6 @@ class _PracticePageState extends State<PracticePage> {
                               .seekTo(Duration.zero)
                               .then((_) => _videoController!.play());
                         }
-                        ;
                       });
                     }
                   },
