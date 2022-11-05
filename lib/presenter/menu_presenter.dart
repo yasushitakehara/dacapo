@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 
 class MenuPresenter {
   Future<List<ScoreDto>> loadScoreDtoList() async {
-    return await ScoreDao.dao.loadScoreDtoList();
+    return await ScoreDao.dao.load();
   }
 
   void addNewScoreDto(ScoreDto dto) async {
-    final scoreDtoList = await ScoreDao.dao.loadScoreDtoList();
+    final scoreDtoList = await ScoreDao.dao.load();
     scoreDtoList.add(dto);
-    await ScoreDao.dao.saveScoreDtoList(scoreDtoList);
+    await ScoreDao.dao.save(scoreDtoList);
     logger.info('added $dto');
   }
 

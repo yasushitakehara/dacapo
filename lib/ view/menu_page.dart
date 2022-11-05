@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
+import 'package:dacapo/%20view/debug_page.dart';
 import 'package:dacapo/%20view/help_page.dart';
 import 'package:dacapo/%20view/practice_page.dart';
 import 'package:dacapo/model/repository/score_dao.dart';
@@ -47,8 +48,11 @@ class _MenuPageState extends State<MenuPage> {
               Icons.help,
             ),
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => HelpPage()));
+              //Navigator.push(
+              //    context, MaterialPageRoute(builder: (context) => HelpPage()));
+
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DebugPage()));
             },
           )
         ],
@@ -117,17 +121,14 @@ class _MenuPageState extends State<MenuPage> {
     return InkWell(
       onTap: () {
         logger.fine('onTap');
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    PracticePage(pictureFilePath: dto.imageFilePath!)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => PracticePage(dto: dto)));
       },
       onLongPress: () async {
         logger.fine('onLongPress');
 
         if (await widget._presenter.showDeleteConfirmDialog(context, dto)) {
-          await ScoreDao.dao.deleteScoreDto(dto.ID!);
+          await ScoreDao.dao.delete(dto.ID!);
           _callBuild();
         }
       },

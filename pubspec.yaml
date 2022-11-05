@@ -1,5 +1,5 @@
 name: dacapo
-description: A new Flutter project.
+description: Flutter App to practice piano.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -69,6 +69,8 @@ flutter_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icon/app-icon.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/icon/adaptive_icon_foreground.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
