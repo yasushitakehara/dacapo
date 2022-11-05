@@ -1,7 +1,9 @@
+import 'package:chewie/chewie.dart';
 import 'package:dacapo/model/repository/score_dao.dart';
 import 'package:dacapo/model/score_dto.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 class PracticePresenter {
   void update(ScoreDto dto) async {
@@ -34,4 +36,21 @@ class PracticePresenter {
       ],
     ),
   );
+
+  ChewieController createChewieController(
+      VideoPlayerController videoController) {
+    return ChewieController(
+      videoPlayerController: videoController!,
+
+      // 以下はオプション（なくてもOK）
+      allowFullScreen: false,
+      materialProgressColors: ChewieProgressColors(
+        playedColor: Colors.red, //再生済み部分（左側）の色
+        handleColor: Colors.blue, //再生地点を示すハンドルの色
+        backgroundColor: Colors.grey, //再生前のプログレスバーの色
+        bufferedColor: Colors.lightGreen, //未再生部分（右側）の色
+      ),
+      autoInitialize: true, //widget呼び出し時に動画を読み込むかどうか
+    );
+  }
 }

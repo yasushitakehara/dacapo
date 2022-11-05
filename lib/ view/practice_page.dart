@@ -25,40 +25,51 @@ class PracticePage extends StatefulWidget {
 
 class _PracticePageState extends State<PracticePage> {
   double _currentSliderValue = 3.0;
-  XFile? _specimenVideoXFile;
   bool _showScore = true;
   VideoPlayerController? _videoController;
   ChewieController? _chewieController;
   bool _isWaiting = false;
   bool _noRepeatFlag = false;
 
+  void prepareVideoControllers(String videoFilePath) async {
+    _videoController = VideoPlayerController.file(File(videoFilePath));
+    await _videoController!.initialize().then((_) {
+      // Ensure the first frame is shown after the video is initialized,
+      // even before the play button has been pressed.
+      setState(() {});
+    });
+    _chewieController =
+        widget._presenter.createChewieController(_videoController!);
+  }
+
   @override
   void initState() {
     logger.fine('initState');
     super.initState();
+
+    if (widget.dto.videoFilePath != null) {
+      prepareVideoControllers(widget.dto.videoFilePath!);
+    }
+
     Timer.periodic(new Duration(milliseconds: 500), (timer) {
       if (_chewieController == null) {
         logger.fine('No video yet...');
         return;
-      }
-      logger.info('isPlaying? ${_chewieController!.isPlaying}');
-      if (_chewieController!.isPlaying) {
+      } else if (_chewieController!.isPlaying) {
         logger.fine('playing! enjoy-!');
         return;
       } else if (_isWaiting) {
-        logger.fine('waiting for delay.');
+        logger.fine('waiting due to delay.');
         return;
       } else if (_noRepeatFlag) {
-        logger.fine('do not repeat!');
+        logger.fine('no repeat setting!');
         return;
       }
 
-      logger.fine('we will repeat after a while!');
       _isWaiting = true;
-
       int sleepMilliSec =
           DaCapoUtil.toRepeatDelayMilliSecond(_currentSliderValue);
-      logger.fine('sleep $sleepMilliSec millisecondssssss');
+      logger.fine('sleep $sleepMilliSec ms!');
       sleep(Duration(milliseconds: sleepMilliSec));
       logger.fine('has waken up! repeat again!');
       _chewieController!.play();
@@ -89,14 +100,13 @@ class _PracticePageState extends State<PracticePage> {
                   onPressed: () async {
                     logger.fine('onPressed');
 
-                    _specimenVideoXFile = await Navigator.push(
+                    final takenXFile = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => VideoRecordPage()));
-                    logger.fine('specimenVideoXFile = $_specimenVideoXFile');
-                    if (_specimenVideoXFile != null) {
-                      logger.fine('_specimenVideoXFile != null');
-                      widget.dto.videoFilePath = _specimenVideoXFile!.path;
+                            builder: (context) => const VideoRecordPage()));
+                    logger.fine('takenXFile = $takenXFile');
+                    if (takenXFile != null) {
+                      widget.dto.videoFilePath = takenXFile!.path;
 
                       // do not await for parallel process.
                       widget._presenter.update(widget.dto);
@@ -107,29 +117,8 @@ class _PracticePageState extends State<PracticePage> {
                         await _videoController!.dispose();
                         _chewieController!.dispose();
                       }
-                      _videoController = VideoPlayerController.file(
-                          File(_specimenVideoXFile!.path));
-                      await _videoController!.initialize().then((_) {
-                        // Ensure the first frame is shown after the video is initialized,
-                        // even before the play button has been pressed.
-                        setState(() {});
-                      });
-                      _chewieController = ChewieController(
-                        videoPlayerController: _videoController!,
 
-                        // 以下はオプション（なくてもOK）
-                        allowFullScreen: false,
-                        materialProgressColors: ChewieProgressColors(
-                          playedColor: Colors.red, //再生済み部分（左側）の色
-                          handleColor: Colors.blue, //再生地点を示すハンドルの色
-                          backgroundColor: Colors.grey, //再生前のプログレスバーの色
-                          bufferedColor: Colors.lightGreen, //未再生部分（右側）の色
-                        ),
-                        /*placeholder: Container(
-                          color: Colors.white, //動画読み込み前の背景色
-                        ),*/
-                        autoInitialize: true, //widget呼び出し時に動画を読み込むかどうか
-                      );
+                      prepareVideoControllers(widget.dto.videoFilePath!);
                     }
                   },
                   child: const Icon(Icons.video_call),
@@ -188,7 +177,7 @@ class _PracticePageState extends State<PracticePage> {
                   child: const Icon(Icons.music_video),
                 ),
               ),
-              Text('リピート停止'),
+              const Text('リピート停止'),
               Switch(
                   value: _noRepeatFlag,
                   onChanged: (value) {
@@ -200,18 +189,8 @@ class _PracticePageState extends State<PracticePage> {
             ],
           ),
           Expanded(
-              //margin: const EdgeInsets.all(8),
-              // child: FittedBox(fit: BoxFit.contain, child: _createMainContent()),
-              // width: 400, //double.infinity,
-              // height: 200,
-              // decoration: BoxDecoration(
-              //   border: Border.all(color: Colors.black),
-              //   borderRadius: BorderRadius.circular(20),
-              // ),
-              child: Container(
-            //height: 200,
             child: _createMainContent(),
-          )),
+          ),
         ],
       ),
     );
@@ -220,17 +199,10 @@ class _PracticePageState extends State<PracticePage> {
   Widget _createMainContent() {
     if (_showScore) {
       return Image.file(File(widget.dto.imageFilePath!));
-    }
-
-    logger.fine(_specimenVideoXFile != null);
-    logger.fine(_videoController != null);
-    if (_specimenVideoXFile != null && _videoController != null) {
+    } else {
+      assert(_videoController != null);
       return Chewie(
         controller: _chewieController!,
-      );
-    } else {
-      return const Center(
-        child: Text('お手本をビデオを撮ると、ここに表示されます。リピートさせながら練習しましよう。'),
       );
     }
   }
