@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dacapo/model/score_dto.dart';
 import 'package:dacapo/util/logger.dart';
@@ -37,10 +38,38 @@ class ScoreDao {
     logger.fine('saveScoreDtoList');
     final prefs = await SharedPreferences.getInstance();
     final jsonStrList = <String>[];
-    for (var dto in scoreDtoList) {
+    for (ScoreDto dto in scoreDtoList) {
       jsonStrList.add(jsonEncode(dto));
     }
     prefs.setStringList(scoreDtoKeyForPref, jsonStrList);
     logger.info(jsonStrList);
+  }
+
+  Future<void> deleteScoreDto(String deletingID) async {
+    logger.info('deleteScoreDto');
+    final currentDtoList = await loadScoreDtoList();
+    final newDtoList = <ScoreDto>[];
+    for (ScoreDto dto in currentDtoList) {
+      if (dto.ID == deletingID) {
+        logger.info('bingo! ${dto.ID}');
+        if (dto.imageFilePath != null) {
+          File imageFile = File(dto.imageFilePath!);
+          if (imageFile.existsSync()) {
+            imageFile.deleteSync();
+          }
+          logger.info('deleted ${dto.imageFilePath}');
+        }
+        if (dto.videoFilePath != null) {
+          File videoFile = File(dto.videoFilePath!);
+          if (videoFile.existsSync()) {
+            videoFile.deleteSync();
+          }
+          logger.info('deleted ${dto.videoFilePath}');
+        }
+        continue;
+      }
+      newDtoList.add(dto);
+    }
+    saveScoreDtoList(newDtoList);
   }
 }

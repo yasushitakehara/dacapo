@@ -8,13 +8,21 @@ class MenuPresenter {
     return await ScoreDao.dao.loadScoreDtoList();
   }
 
-  Future<bool> showDeleteConfirmDialog(BuildContext context, int index) async {
+  void addNewScoreDto(ScoreDto dto) async {
+    final scoreDtoList = await ScoreDao.dao.loadScoreDtoList();
+    scoreDtoList.add(dto);
+    await ScoreDao.dao.saveScoreDtoList(scoreDtoList);
+    logger.info('added $dto');
+  }
+
+  Future<bool> showDeleteConfirmDialog(
+      BuildContext context, ScoreDto dto) async {
     bool? result = await showDialog<bool>(
       context: context,
       builder: (_) {
         return AlertDialog(
           title: const Text("削除確認"),
-          content: Text("この楽譜データ[$index]を削除しますか？"),
+          content: Text("この楽譜データを削除しますか？ ID=${dto.ID!}"),
           actions: <Widget>[
             ElevatedButton(
               child: const Text("いいえ"),
@@ -34,6 +42,7 @@ class MenuPresenter {
         );
       },
     );
+    logger.fine('result = $result');
     return result ?? false;
   }
 }
