@@ -1,4 +1,4 @@
-![](https://github.com/<OWNER>/<REPOSITORY>/workflows/<WORKFLOW_NAME>/badge.svg)
+![](https://github.com/yasushitakehara/dacapo/workflows/test-dacapo/badge.svg)
 
 # Da Capo
 A new Flutter project for smartphone to practice piano.
