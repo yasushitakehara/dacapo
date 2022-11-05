@@ -13,6 +13,22 @@ class ScoreDao {
   // may need DI structure in future
   static ScoreDao dao = ScoreDao._();
 
+  Future<void> initialize() async {
+    logger.fine('initialize');
+    final prefs = await SharedPreferences.getInstance();
+
+    final keys = prefs.getKeys();
+    logger.info(keys.toString());
+
+    if (keys.isEmpty) {
+      logger.info('create and save empty data for the first time execution!');
+      // save empty data to avoid being null.
+      save([]);
+    } else {
+      logger.info('have already had data');
+    }
+  }
+
   Future<List<ScoreDto>> load() async {
     logger.fine('load');
     final prefs = await SharedPreferences.getInstance();

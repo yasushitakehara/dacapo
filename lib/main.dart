@@ -1,4 +1,5 @@
 import 'package:dacapo/model/camera_manager.dart';
+import 'package:dacapo/model/repository/score_dao.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +18,7 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
   CameraManager.initialize();
-
+  ScoreDao.dao.initialize();
   runApp(const DaCapoApp());
 }
 
