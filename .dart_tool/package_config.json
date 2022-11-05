@@ -146,6 +146,12 @@
       "languageVersion": "2.17"
     },
     {
+      "name": "flutter_localizations",
+      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/packages/flutter_localizations",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.7",
       "packageUri": "lib/",
@@ -164,26 +170,8 @@
       "languageVersion": "2.17"
     },
     {
-      "name": "google_fonts",
-      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/google_fonts-3.0.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "html",
       "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/html-0.15.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
-      "name": "http",
-      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/http-0.13.5",
-      "packageUri": "lib/",
-      "languageVersion": "2.14"
-    },
-    {
-      "name": "http_parser",
-      "rootUri": "file:///Users/yasushitakehara/Desktop/workspace/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -494,7 +482,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-11-05T10:52:02.005999Z",
+  "generated": "2022-11-05T14:25:38.565181Z",
   "generator": "pub",
   "generatorVersion": "2.18.4"
 }
