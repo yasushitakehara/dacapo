@@ -2,14 +2,18 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:dacapo/%20view/video_record_page.dart';
+import 'package:dacapo/model/score_dto.dart';
+import 'package:dacapo/presenter/practice_presenter.dart';
+import 'package:dacapo/util/dacapo_util.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class PracticePage extends StatefulWidget {
-  const PracticePage({super.key, required this.pictureFilePath});
+  PracticePage({super.key, required this.dto});
 
-  final String pictureFilePath;
+  final PracticePresenter _presenter = PracticePresenter();
+  final ScoreDto dto;
 
   @override
   State<PracticePage> createState() => _PracticePageState();
@@ -29,7 +33,7 @@ class _PracticePageState extends State<PracticePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Da Capo 練習'),
+        title: const Text('お手本を動画で撮って、リピートさせて練習しましょう'),
         centerTitle: true,
       ),
       body: Column(
@@ -63,11 +67,11 @@ class _PracticePageState extends State<PracticePage> {
                                 _videoController!.value.position)) {
                           //checking the duration and position every time
                           logger.fine('reached the end of the movie!');
-                          logger.fine(
-                              'sleep ${(_currentSliderValue * 1000).toInt()} milliseconds');
-                          sleep(Duration(
-                              milliseconds:
-                                  (_currentSliderValue * 1000).toInt()));
+                          int sleepMilliSec =
+                              DaCapoUtil.toRepeatDelayMilliSecond(
+                                  _currentSliderValue);
+                          logger.fine('sleep $sleepMilliSec milliseconds');
+                          sleep(Duration(milliseconds: sleepMilliSec));
                           logger.fine('repeat again!');
                           //setState(() {
                           //_videoController!.play();
@@ -92,8 +96,18 @@ class _PracticePageState extends State<PracticePage> {
                   divisions: 100,
                   label: _currentSliderValue.toStringAsFixed(1),
                   onChanged: (double value) {
+                    // no logging due to be called many times!
                     setState(() {
                       _currentSliderValue = value;
+                    });
+                  },
+                  onChangeEnd: (double value) {
+                    logger.fine('onChangeEnd $value');
+                    setState(() {
+                      _currentSliderValue = value;
+                      widget.dto.repeatDelayMilliSeconds =
+                          DaCapoUtil.toRepeatDelayMilliSecond(value);
+                      widget._presenter.update(widget.dto);
                     });
                   },
                 ),
@@ -160,7 +174,7 @@ class _PracticePageState extends State<PracticePage> {
 
   Widget _createMainContent() {
     if (_showScore) {
-      return Image.file(File(widget.pictureFilePath));
+      return Image.file(File(widget.dto.imageFilePath!));
     }
 
     logger.fine(_specimenVideoXFile != null);
@@ -168,7 +182,7 @@ class _PracticePageState extends State<PracticePage> {
     if (_specimenVideoXFile != null && _videoController != null) {
       return VideoPlayer(_videoController!);
     } else {
-      return const Text('先にビデオを撮ること');
+      return const Text('お手本をビデオを撮ると、ここに表示されます。リピートさせながら練習しましよう。');
     }
   }
 

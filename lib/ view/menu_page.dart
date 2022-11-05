@@ -117,17 +117,14 @@ class _MenuPageState extends State<MenuPage> {
     return InkWell(
       onTap: () {
         logger.fine('onTap');
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    PracticePage(pictureFilePath: dto.imageFilePath!)));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => PracticePage(dto: dto)));
       },
       onLongPress: () async {
         logger.fine('onLongPress');
 
         if (await widget._presenter.showDeleteConfirmDialog(context, dto)) {
-          await ScoreDao.dao.deleteScoreDto(dto.ID!);
+          await ScoreDao.dao.delete(dto.ID!);
           _callBuild();
         }
       },
