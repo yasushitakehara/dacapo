@@ -1,6 +1,9 @@
 ![](https://github.com/yasushitakehara/dacapo/workflows/test-dacapo/badge.svg)
 
 # Da Capo
+<div style="text-align: center">
+<img src="assets/icon/app-icon.png" alt="Da Capo App Icon" style="border-radius: 20%;" width="50px"/>
+</div>
 A new Flutter project for smartphone to practice piano.
 
 ## Getting Started
