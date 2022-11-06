@@ -41,10 +41,8 @@ class PracticePresenter {
       VideoPlayerController videoController) {
     return ChewieController(
       videoPlayerController: videoController,
-
-      // 以下はオプション（なくてもOK）
       allowFullScreen: false,
-      autoInitialize: true, //widget呼び出し時に動画を読み込むかどうか
+      autoInitialize: true,
     );
   }
 }
