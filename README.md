@@ -5,19 +5,23 @@ A new Flutter project for smartphone to practice piano.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Recommended dev env
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* mac 
+* VSCode
 
 ## How to Run
 execute
 ```
 flutter run
 ```
+
+## Spec
+### Usecase Diagram
+![Usercase](out/spec/usecase/usecase.png)
+### Screen Transition Diagram
+![Usercase](out/spec/screen-transition-diagram/screen-transition-diagram.png)
+### Component Diagram
+![Usercase](out/spec/component-diagram/component-diagram.png)
+### Package Diagram
+![Usercase](out/spec/package-diagram/package-diagram.png)
