@@ -40,7 +40,7 @@ class PracticePresenter {
   ChewieController createChewieController(
       VideoPlayerController videoController) {
     return ChewieController(
-      videoPlayerController: videoController!,
+      videoPlayerController: videoController,
 
       // 以下はオプション（なくてもOK）
       allowFullScreen: false,
