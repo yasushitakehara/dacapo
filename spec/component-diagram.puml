@@ -1,5 +1,4 @@
-@startuml
-'left to right direction
+@startuml component
 
 title Da Capo Component Diagram (ver.0.1)
 legend top

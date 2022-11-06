@@ -1,9 +1,12 @@
 # Da Capo
 <div style="text-align: center">
-<img src="assets/icon/app-icon.png" alt="Da Capo App Icon" style="border-radius: 20%;" width="50px"/>
+<img src="assets/icon/app-icon.png" alt="Da Capo App Icon" style="border-radius: 20%;" width="100px"/>
 </div>
+
+![Version Info](https://img.shields.io/static/v1?label=version&message=0.1.0&color=blue)
+![Test Info](https://github.com/yasushitakehara/dacapo/workflows/test-dacapo/badge.svg) 
+
 A new Flutter project for smartphone users to practice piano.
-![](https://github.com/yasushitakehara/dacapo/workflows/test-dacapo/badge.svg)
 
 ## Introduction Movie
 

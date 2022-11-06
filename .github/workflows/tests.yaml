@@ -1,11 +1,13 @@
 # referenece
 # https://blog.gskinner.com/archives/2022/01/flutter-easily-add-ci-testing-with-github-actions.html
-name: test-dacapo
+name: check-dacapo
 on: [push, workflow_dispatch]
 jobs:
   drive:
     runs-on: ubuntu-latest
     steps:
+      - run: echo "check the source code and app"
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v1
       - run: flutter test
+      - run: dart analyze

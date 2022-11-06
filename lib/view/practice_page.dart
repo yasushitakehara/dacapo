@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:camera/camera.dart';
-import 'package:dacapo/util/date_format_util.dart';
 import 'package:dacapo/view/video_record_page.dart';
 import 'package:dacapo/model/score_dto.dart';
 import 'package:dacapo/presenter/practice_presenter.dart';
@@ -10,8 +8,6 @@ import 'package:dacapo/util/dacapo_util.dart';
 import 'package:dacapo/util/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:chewie/chewie.dart';
-import 'package:chewie/src/chewie_player.dart';
-import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 
 class PracticePage extends StatefulWidget {
@@ -31,6 +27,8 @@ class _PracticePageState extends State<PracticePage> {
   ChewieController? _chewieController;
   bool _isWaiting = false;
   bool _noRepeatFlag = false;
+  Timer? _periodicRepeatTimer;
+  static const _repeatCheckDurationMS = 500;
 
   void prepareVideoControllers(String videoFilePath) async {
     _videoController = VideoPlayerController.file(File(videoFilePath));
@@ -54,7 +52,8 @@ class _PracticePageState extends State<PracticePage> {
       prepareVideoControllers(widget.dto.videoFilePath!);
     }
 
-    Timer.periodic(const Duration(milliseconds: 500), (timer) {
+    _periodicRepeatTimer = Timer.periodic(
+        const Duration(milliseconds: _repeatCheckDurationMS), (timer) {
       if (_chewieController == null) {
         logger.fine('No video yet...');
         return;
@@ -73,10 +72,13 @@ class _PracticePageState extends State<PracticePage> {
       int sleepMilliSec =
           DaCapoUtil.toRepeatDelayMilliSecond(_currentSliderValue);
       logger.fine('sleep $sleepMilliSec ms!');
-      sleep(Duration(milliseconds: sleepMilliSec));
-      logger.fine('has waken up! repeat again!');
-      _chewieController!.play();
-      _isWaiting = false;
+
+      // "Future.delayed" allow an user to operate even during waiting, unlike "sleep".
+      Future.delayed(Duration(milliseconds: sleepMilliSec)).then((value) {
+        logger.fine('has waken up! repeat again!');
+        _chewieController!.play();
+        _isWaiting = false;
+      });
     });
   }
 
@@ -207,8 +209,10 @@ class _PracticePageState extends State<PracticePage> {
 
   @override
   void dispose() {
+    _periodicRepeatTimer?.cancel();
     _videoController?.dispose();
     _chewieController?.dispose();
     super.dispose();
+    logger.info('finished dispose');
   }
 }
