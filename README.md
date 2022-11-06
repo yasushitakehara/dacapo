@@ -6,6 +6,9 @@
 </div>
 A new Flutter project for smartphone to practice piano.
 
+## Introduction
+
+
 ## Getting Started
 
 Recommended dev env
