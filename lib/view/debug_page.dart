@@ -42,14 +42,12 @@ class DebugPage extends StatelessWidget {
     return ListView.builder(
       itemCount: dtoList.length,
       itemBuilder: (BuildContext context, int index) {
-        return Container(
-          child: ListTile(
-            leading: Image.file(File(dtoList[index].imageFilePath!)),
-            title: Text(
-                'ID:${dtoList[index].ID}, RepeatDelayMilliSec:${dtoList[index].repeatDelayMilliSeconds}'),
-            subtitle: Text(
-                'Image:${dtoList[index].imageFilePath}\nVideo:${dtoList[index].videoFilePath}'),
-          ),
+        return ListTile(
+          leading: Image.file(File(dtoList[index].imageFilePath!)),
+          title: Text(
+              'ID:${dtoList[index].ID}, RepeatDelayMilliSec:${dtoList[index].repeatDelayMilliSeconds}'),
+          subtitle: Text(
+              'Image:${dtoList[index].imageFilePath}\nVideo:${dtoList[index].videoFilePath}'),
         );
       },
     );

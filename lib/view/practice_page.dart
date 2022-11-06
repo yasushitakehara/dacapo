@@ -213,5 +213,6 @@ class _PracticePageState extends State<PracticePage> {
     _videoController?.dispose();
     _chewieController?.dispose();
     super.dispose();
+    logger.info('finished dispose');
   }
 }

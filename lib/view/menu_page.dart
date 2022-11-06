@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
-import 'package:dacapo/view/debug_page.dart';
 import 'package:dacapo/view/help_page.dart';
 import 'package:dacapo/view/practice_page.dart';
 import 'package:dacapo/model/repository/score_dao.dart';
@@ -22,7 +20,6 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
-  final List<Widget> _scoreList = [];
   bool _buildFlag = false;
   _callBuild() {
     setState(() {
@@ -78,11 +75,11 @@ class _MenuPageState extends State<MenuPage> {
             } else if (snapshot.hasError) {
               child = [
                 Center(
-                  child: Text('エラー：' + snapshot.data.toString()),
+                  child: Text('エラー：${snapshot.data.toString()}'),
                 ),
               ];
             } else {
-              child = [Text('')];
+              child = [const Text('')];
             }
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -95,8 +92,10 @@ class _MenuPageState extends State<MenuPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           logger.fine('onPressed');
-          final takenPictureFilePath = await Navigator.push(context,
-              MaterialPageRoute(builder: (context) => CameraRecordPage()));
+          final takenPictureFilePath = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const CameraRecordPage()));
 
           if (takenPictureFilePath != null) {
             logger.fine('received ${takenPictureFilePath.toString()}');
